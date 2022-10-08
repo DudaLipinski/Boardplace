@@ -1,0 +1,126 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+h1,
+h2 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+form {
+  width: 40%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+input {
+  width: 100%;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e6e6e6;
+  border-radius: 20px;
+  font-size: 16px;
+  color: #444242
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #2a77a3;
+  color: white;
+  border: 0px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+label {
+  margin-left: 15px;
+  margin-bottom: 5px;
+  color: #444242;
+  font-size: 14px;
+}
+
+*:focus-visible {
+  outline: none;
+}
+
+*:-internal-autofill-selected {
+  background-color: none !important;
+}
+
+.menu__wrapper {
+  height: 70px;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-nav-left__list {
+  display: flex;
+}
+
+.menu-nav-left__item {
+  padding-right: 25px;
+}
+
+.login__create-account {
+  text-align: center;
+  font-size: 14px;
+  color: grey;
+  text-decoration: none;
+  display: block;
+  margin-top: 40px;
+}
