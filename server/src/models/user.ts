@@ -49,6 +49,25 @@ export const remove = (auth: Pick<User, 'email' | 'password'>) => {
   })
 }
 
+export const getByEmail = (email: string) => {
+  const query = `SELECT * FROM users
+    WHERE email = $email
+    LIMIT 1
+  `
+
+  return new Promise((resolve, reject) => {
+    db.get(query, {
+      $email: email,
+    }, function(error, user) {
+      if (error) {
+        reject(`An error occurred while trying to fetch an user by email: ${error?.message}`)
+      }
+
+      resolve(user)
+    })
+  })
+}
+
 export const auth = (auth: Pick<User, 'email' | 'password'>) => {
   const query = `SELECT rowId id, firstName, lastName, age, email
     FROM users

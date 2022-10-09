@@ -26,6 +26,11 @@ export const create: RequestHandler = async (req, res) => {
   }
 
   try {
+    const userWithSameEmail = await userModel.getByEmail(user.email)
+    if (userWithSameEmail) {
+      return res.status(409).send('There\'s already a user registered with this email')
+    }
+
     const id = await userModel.create(user)
     res.status(200).send({
       id,

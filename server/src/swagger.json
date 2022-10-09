@@ -39,6 +39,16 @@
               }
             }
           },
+          "409": {
+            "description": "User already exists with given email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Unexpected error",
             "content": {
