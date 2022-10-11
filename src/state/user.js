@@ -1,18 +1,22 @@
-const CREATE_USER = "CREATE_USER";
+const ADD_USER = "ADD_USER";
+const REMOVE_USER = "REMOVE_USER";
 
 const INITIAL_STATE = {};
 
 export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case CREATE_USER:
-      return { ...state, user: action.payload };
+    case ADD_USER:
+      return action.payload;
+    case REMOVE_USER:
+      return {};
     default:
       return state;
   }
 };
 
 export const actions = {
-  createUser: (user) => ({ type: CREATE_USER, payload: user }),
+  addUser: (user) => ({ type: ADD_USER, payload: user }),
+  removeUser: () => ({ type: REMOVE_USER }),
 };
 
 export const selectors = {

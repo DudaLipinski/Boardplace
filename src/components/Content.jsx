@@ -4,12 +4,7 @@ import { selectors as userSelectors } from "../state/user";
 
 export const Content = () => {
   const userData = useSelector(userSelectors.getUser);
-
-  if (Object.keys(userData).length === 0) {
-    return <p>You need to login</p>;
-  }
-
-  const { firstName, lastName, email, age } = userData.user;
+  const { firstName, lastName, email, age } = userData;
 
   return (
     <div data-testid="user-details">

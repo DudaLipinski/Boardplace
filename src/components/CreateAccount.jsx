@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { createUser } from "../services";
 
 import { useDispatch } from "react-redux";
 import { actions as userActions } from "../state/user";
@@ -9,24 +10,21 @@ export const CreateAccount = () => {
   const dispatch = useDispatch();
   const [userIsCreated, setUserIsCreated] = useState(false);
 
-  const user = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    age: null,
-    password: "",
-  };
-
   const createNewAccount = (event) => {
     event.preventDefault();
 
-    dispatch(userActions.createUser(user));
-    setUserIsCreated(true);
-  };
+    const formData = new FormData(event.target);
+    const user = {};
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    user[name] = value;
+    for (const [key, value] of formData.entries()) {
+      user[key] = value;
+    }
+
+    createUser(user).then((createdUser) => {
+      dispatch(userActions.removeUser());
+      dispatch(userActions.addUser(createdUser));
+      setUserIsCreated(true);
+    });
   };
 
   return (
@@ -41,7 +39,6 @@ export const CreateAccount = () => {
               type="text"
               pattern="^[A-Za-z]+"
               name="firstName"
-              onChange={handleChange}
               required
             ></input>
             <label htmlFor="lastName">Last name</label>
@@ -49,30 +46,16 @@ export const CreateAccount = () => {
               id="lastName"
               type="text"
               pattern="^[A-Za-z]+"
-              onChange={handleChange}
               name="lastName"
               required
             ></input>
             <label htmlFor="age">Age</label>
-            <input
-              type="number"
-              onChange={handleChange}
-              name="age"
-              id="age"
-              required
-            ></input>
+            <input type="number" name="age" id="age" required></input>
             <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              onChange={handleChange}
-              name="email"
-              id="email"
-              required
-            ></input>
+            <input type="email" name="email" id="email" required></input>
             <label htmlFor="password">Password</label>
             <input
               type="password"
-              onChange={handleChange}
               name="password"
               id="password"
               minength="8"
@@ -81,7 +64,6 @@ export const CreateAccount = () => {
             {/* <label htmlFor="password">Confirm password</label> */}
             {/* <input
               type="password"
-              onChange={handleChange}
               name="confirmPassword"
               id="confirmPassword"
               minLength="8"
