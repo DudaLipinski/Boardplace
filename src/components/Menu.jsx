@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectors as userSelectors } from "../state/user";
@@ -9,14 +9,7 @@ export const Menu = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const userData = useSelector(userSelectors.getUser);
-  const [userIsLogged, setUserIsLogged] = useState(false);
-
-  useEffect(() => {
-    if (Object.values(userData).length !== 0) {
-      setUserIsLogged(true);
-    }
-  }, [userData]);
+  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn);
 
   const doLogout = () => {
     dispatch(userActions.removeUser());
@@ -38,7 +31,7 @@ export const Menu = () => {
         </nav>
         <nav className="menu-nav__right">
           <ul>
-            {userIsLogged ? (
+            {userIsLoggedIn ? (
               <li>
                 <button onClick={doLogout}>Logout</button>{" "}
               </li>
