@@ -19,22 +19,23 @@ export const Menu = () => {
   return (
     <header className="menu">
       <div className="menu__wrapper">
-        <nav className="menu-nav-left">
-          <ul className="menu-nav-left__list">
-            <li className="menu-nav-left__item">
-              <Link to="/">Home</Link>
-            </li>
-            <li className="menu-nav-left__item">
-              <Link to="/">About</Link>
-            </li>
-          </ul>
-        </nav>
+        {/* <nav className="menu-nav-left">
+          <ul className="menu-nav-left__list"></ul>
+        </nav> */}
         <nav className="menu-nav__right">
-          <ul>
+          <ul className="menu-nav-right__list">
             {userIsLoggedIn ? (
-              <li>
-                <button onClick={doLogout}>Logout</button>{" "}
-              </li>
+              <>
+                <li className="menu-nav-right__item">
+                  <Link to="/dashboard">Home</Link>
+                </li>
+                <li className="menu-nav-right__item">
+                  <Link to="/profile">Profile</Link>
+                </li>
+                <li className="menu-nav-right__item">
+                  <button onClick={doLogout}>Logout</button>{" "}
+                </li>
+              </>
             ) : (
               <li>
                 <Link to="/login">Login</Link>

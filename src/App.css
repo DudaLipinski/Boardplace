@@ -108,11 +108,26 @@ label {
   justify-content: space-between;
 }
 
+.menu-nav__right {
+  width: 100%;
+}
+
 .menu-nav-left__list {
   display: flex;
 }
 
 .menu-nav-left__item {
+  padding-right: 25px;
+}
+
+
+.menu-nav-right__list {
+  display: flex;
+  align-items: center;
+  float: right;
+}
+
+.menu-nav-right__item {
   padding-right: 25px;
 }
 

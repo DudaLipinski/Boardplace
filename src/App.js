@@ -13,7 +13,7 @@ function App() {
           <Menu />
           <AppRoutes />
         </BrowserRouter>
-      </Provider>
+      </Provider> 
     </div>
   );
 }

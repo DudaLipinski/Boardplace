@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { selectors as userSelectors } from "../state/user";
 
-export const Content = () => {
+export const Profile = () => {
   const userData = useSelector(userSelectors.getUser);
-  const [userIsLogged, setUserIsLogged] = useState(false);
+  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn);
 
-  useEffect(() => {
-    if (Object.values(userData).length !== 0) {
-      setUserIsLogged(true);
-    }
-  }, [userData]);
+  if (!userData) {
+    return;
+  }
 
   const { firstName, lastName, email, age } = userData;
 
   return (
     <div>
-      {userIsLogged ? (
+      {userIsLoggedIn ? (
         <div data-testid="user-details">
           <p data-testid="user-details__name">
             {firstName} {lastName}
