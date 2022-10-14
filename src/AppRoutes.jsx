@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { Profile } from "./components/Profile";
-import { CreateAccount } from "./components/CreateAccount";
-import { Dashboard } from "./components/Dashboard";
-import { Login } from "./components/Login";
+import { CreateAccount } from "./components/CreateAccount/CreateAccount";
+import { Dashboard } from "./components/Dashboard/Dashboard";
+import { Login } from "./components/Login/Login";
 
 const appRoutes = () => {
   return (

@@ -1,29 +1,33 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectors as userSelectors } from "../state/user";
+import { Menu } from "./Menu/Menu";
+import { Canva, WrapperContent } from "./Canva";
+import { LoggedOut } from "./LoggedOut";
 
 export const Profile = () => {
   const userData = useSelector(userSelectors.getUser);
   const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn);
 
-  if (!userData) {
-    return;
-  }
-
-  const { firstName, lastName, email, age } = userData;
-
   return (
     <div>
+      <Menu />
       {userIsLoggedIn ? (
-        <div data-testid="user-details">
-          <p data-testid="user-details__name">
-            {firstName} {lastName}
-          </p>
-          <p>{email}</p>
-          <p>{age}</p>
-        </div>
+        <>
+          <Canva>
+            <WrapperContent>
+              <div data-testid="user-details">
+                <p data-testid="user-details__name">
+                  {userData?.firstName} {userData?.lastName}
+                </p>
+                <p>{userData?.email}</p>
+                <p>{userData?.age}</p>
+              </div>
+            </WrapperContent>
+          </Canva>
+        </>
       ) : (
-        <p>You need to login</p>
+        <LoggedOut />
       )}
     </div>
   );

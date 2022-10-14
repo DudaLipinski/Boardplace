@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { createUser } from "../services";
+import { createUser } from "../../services";
 
 import { useDispatch } from "react-redux";
-import { actions as userActions } from "../state/user";
+import { actions as userActions } from "../../state/user";
 
 export const CreateAccount = () => {
   const dispatch = useDispatch();
@@ -59,14 +59,6 @@ export const CreateAccount = () => {
           minength="8"
           required
         ></input>
-        {/* <label htmlFor="password">Confirm password</label> */}
-        {/* <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              minLength="8"
-              required
-            ></input> */}
         <button>Create</button>
       </form>
       <Link className="login__create-account" to="/login">
