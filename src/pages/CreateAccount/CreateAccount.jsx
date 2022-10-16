@@ -1,31 +1,31 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { createUser } from "../../services";
+import React from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { createUser } from "../../services"
 
-import { useDispatch } from "react-redux";
-import { actions as userActions } from "../../state/user";
+import { useDispatch } from "react-redux"
+import { actions as userActions } from "../../state/user"
 
 export const CreateAccount = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const createNewAccount = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const formData = new FormData(event.target);
-    const user = {};
+    const formData = new FormData(event.target)
+    const user = {}
 
     for (const [key, value] of formData.entries()) {
-      user[key] = value;
+      user[key] = value
     }
 
     createUser(user).then((createdUser) => {
-      dispatch(userActions.removeUser());
-      dispatch(userActions.addUser(createdUser));
-    });
+      dispatch(userActions.removeUser())
+      dispatch(userActions.addUser(createdUser))
+    })
 
-    navigate("/dashboard");
-  };
+    navigate("/dashboard")
+  }
 
   return (
     <div>
@@ -65,5 +65,5 @@ export const CreateAccount = () => {
         Login
       </Link>
     </div>
-  );
-};
+  )
+}

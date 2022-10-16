@@ -1,13 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { selectors as userSelectors } from "../state/user";
-import { Menu } from "../components/Menu/Menu";
-import { Canva, WrapperContent } from "../components/Canva";
-import { LoggedOut } from "../components/LoggedOut";
+import React from "react"
+import { useSelector } from "react-redux"
+import { selectors as userSelectors } from "../state/user"
+import { Menu } from "../components/Menu/Menu"
+import { Canva, WrapperContent } from "../components/Canva"
+import { LoggedOut } from "../components/LoggedOut"
 
 export const Profile = () => {
-  const userData = useSelector(userSelectors.getUser);
-  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn);
+  const userData = useSelector(userSelectors.getUser)
+  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn)
 
   return (
     <div>
@@ -30,5 +30,5 @@ export const Profile = () => {
         <LoggedOut />
       )}
     </div>
-  );
-};
+  )
+}

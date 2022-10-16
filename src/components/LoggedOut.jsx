@@ -1,4 +1,4 @@
-import { Canva, WrapperContent } from "./Canva";
+import { Canva, WrapperContent } from "./Canva"
 
 export const LoggedOut = () => {
   return (
@@ -7,5 +7,5 @@ export const LoggedOut = () => {
         <div>You need to login :(</div>
       </WrapperContent>
     </Canva>
-  );
-};
+  )
+}

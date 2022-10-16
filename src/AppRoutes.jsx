@@ -1,9 +1,9 @@
-import { Routes, Route } from "react-router-dom";
-import { Login } from "./pages/Login/Login";
-import { CreateAccount } from "./pages/CreateAccount/CreateAccount";
-import { Dashboard } from "./pages/Dashboard/Dashboard";
-import { Profile } from "./pages/Profile";
-import { FirstPlayer } from "./pages/FirstPlayer/FirstPlayer";
+import { Routes, Route } from "react-router-dom"
+import { Login } from "./pages/Login/Login"
+import { CreateAccount } from "./pages/CreateAccount/CreateAccount"
+import { Dashboard } from "./pages/Dashboard/Dashboard"
+import { Profile } from "./pages/Profile"
+import { FirstPlayer } from "./pages/FirstPlayer/FirstPlayer"
 
 const appRoutes = () => {
   return (
@@ -15,7 +15,7 @@ const appRoutes = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/first-player" element={<FirstPlayer />} />
     </Routes>
-  );
-};
+  )
+}
 
-export default appRoutes;
+export default appRoutes

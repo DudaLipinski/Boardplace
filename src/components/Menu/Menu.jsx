@@ -1,23 +1,23 @@
-import React from "react";
-import * as Styled from "./Menu.styles";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectors as userSelectors } from "../../state/user";
-import { useDispatch } from "react-redux";
-import { actions as userActions } from "../../state/user";
-import character from "../../assets/character_2.png";
+import React from "react"
+import * as Styled from "./Menu.styles"
+import { Link, useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { selectors as userSelectors } from "../../state/user"
+import { useDispatch } from "react-redux"
+import { actions as userActions } from "../../state/user"
+import character from "../../assets/character_2.png"
 
 export const Menu = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn);
-  const userData = useSelector(userSelectors.getUser);
+  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn)
+  const userData = useSelector(userSelectors.getUser)
 
   const doLogout = () => {
-    dispatch(userActions.removeUser());
-    navigate("/login");
-  };
+    dispatch(userActions.removeUser())
+    navigate("/login")
+  }
 
   return (
     <Styled.WrapperMenu>
@@ -62,5 +62,5 @@ export const Menu = () => {
         </Styled.Navigation>
       </Styled.Container>
     </Styled.WrapperMenu>
-  );
-};
+  )
+}

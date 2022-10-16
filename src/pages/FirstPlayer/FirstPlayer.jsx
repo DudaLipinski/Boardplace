@@ -1,21 +1,21 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
-import { useSelector } from "react-redux";
-import { selectors as userSelectors } from "../../state/user";
-import { useDispatch } from "react-redux";
-import { actions as userActions } from "../../state/user";
+import { useSelector } from "react-redux"
+import { selectors as userSelectors } from "../../state/user"
+// import { useDispatch } from "react-redux"
+// import { actions as userActions } from "../../state/user"
 
-import { Menu } from "../../components/Menu/Menu";
-import { LoggedOut } from "../../components/LoggedOut";
-import { Canva, WrapperContent } from "../../components/Canva";
-import { useEffect } from "react";
+import { Menu } from "../../components/Menu/Menu"
+import { LoggedOut } from "../../components/LoggedOut"
+import { Canva, WrapperContent } from "../../components/Canva"
+// import { useEffect } from "react"
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const Button = styled.button`
   cursor: pointer;
@@ -37,7 +37,7 @@ const Button = styled.button`
     background: #451fdb;
     transition: 0.2s;
   }
-`;
+`
 
 const Field = styled.input`
   border: 1px solid #d0d5dd;
@@ -46,7 +46,7 @@ const Field = styled.input`
   height: 44px;
 
   padding: 0 30px;
-`;
+`
 
 export const Label = styled.label`
   margin-top: 30px;
@@ -56,27 +56,25 @@ export const Label = styled.label`
   font-size: 14px;
   line-height: 20px;
   color: #344054;
-`;
+`
 
 export const FirstPlayer = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch()
 
-  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn);
+  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn)
 
-  const addPlayer = (event) => {
-    event.preventDefault();
+  // const addPlayer = (event) => {
+  //   event.preventDefault()
 
-    const formData = new FormData(event.target);
-    const player = {};
+  //   const formData = new FormData(event.target)
+  //   const player = {}
 
-    for (const [key, value] of formData.entries()) {
-      player[key] = value;
-    }
-
-    console.log(player);
+  //   for (const [key, value] of formData.entries()) {
+  //     player[key] = value
+  //   }
 
     // dispatch(userActions.addPlayer(player));
-  };
+  // }
 
   return (
     <>
@@ -85,7 +83,7 @@ export const FirstPlayer = () => {
         <>
           <Canva>
             <WrapperContent>
-              <Form onSubmit={addPlayer}>
+              <Form >
                 <Label htmlFor="playerName">Player's name</Label>
                 <Field
                   id="playerName"
@@ -102,5 +100,5 @@ export const FirstPlayer = () => {
         <LoggedOut />
       )}
     </>
-  );
-};
+  )
+}

@@ -1,34 +1,34 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import * as Styled from "./Login.styles";
-import { authUser } from "../../services";
-import { useDispatch } from "react-redux";
-import { actions as userActions } from "../../state/user";
-import illustration from "../../assets/loginIllustration.png";
+import React from "react"
+import { useNavigate } from "react-router-dom"
+import * as Styled from "./Login.styles"
+import { authUser } from "../../services"
+import { useDispatch } from "react-redux"
+import { actions as userActions } from "../../state/user"
+import illustration from "../../assets/loginIllustration.png"
 
 export const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const doLogin = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const formData = new FormData(event.target);
-    const login = {};
+    const formData = new FormData(event.target)
+    const login = {}
 
     for (const [key, value] of formData.entries()) {
-      login[key] = value;
+      login[key] = value
     }
 
     authUser(login)
       .then((user) => {
-        dispatch(userActions.removeUser());
-        dispatch(userActions.addUser(user));
+        dispatch(userActions.removeUser())
+        dispatch(userActions.addUser(user))
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => alert(error.message))
 
-    navigate("/dashboard");
-  };
+    navigate("/dashboard")
+  }
 
   return (
     <>
@@ -70,5 +70,5 @@ export const Login = () => {
         </Styled.Container>
       </Styled.Wrapper>
     </>
-  );
-};
+  )
+}
