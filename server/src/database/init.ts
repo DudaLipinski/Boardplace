@@ -10,4 +10,4 @@ const createUsersTable = `
   );
 `
 
-db.run(createUsersTable);
+db.run(createUsersTable)

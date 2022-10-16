@@ -1,8 +1,8 @@
-import { RequestHandler } from "express";
+import { RequestHandler } from "express"
 import omit from 'lodash.omit'
 
-import validateUser from "../database/schemas/user";
-import validateAuth from "../database/schemas/auth";
+import validateUser from "../database/schemas/user"
+import validateAuth from "../database/schemas/auth"
 import * as userModel from '../models/user'
 
 export const create: RequestHandler = async (req, res) => {

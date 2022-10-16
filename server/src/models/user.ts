@@ -1,4 +1,4 @@
-import { User } from "../database/schemas/user";
+import { User } from "../database/schemas/user"
 import db from '../database'
 
 //  const getByEmail = ()

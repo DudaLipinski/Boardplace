@@ -7,5 +7,5 @@ export default new sqlite3Cli.Database('./database.db', (error) => {
     console.error(error)
   }
 
-  console.log('Connected to database');
-});
+  console.log('Connected to database')
+})

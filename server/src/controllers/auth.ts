@@ -1,5 +1,5 @@
-import { RequestHandler } from "express";
-import validateAuth from "../database/schemas/auth";
+import { RequestHandler } from "express"
+import validateAuth from "../database/schemas/auth"
 
 import * as userModel from '../models/user'
 
