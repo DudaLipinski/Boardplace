@@ -1,0 +1,72 @@
+// If schema name is omitted, it will default to "public" schema.
+Table user {
+  id INTEGER [pk, increment] // auto-increment
+  email TEXT [not null]
+  firstName TEXT [not null]
+  lastName TEXT [not null]
+  age INTEGER [not null]
+  password TEXT [not null]
+  addressId INTEGER [ref: - address.id]
+}
+
+Table address {
+  id INTEGER [pk, increment] // auto-increment
+  country TEXT [not null]
+  state TEXT [not null]
+  city TEXT [not null]
+  address TEXT [not null]
+  postalCode TEXT [not null]
+}
+
+Table favoriteBG {
+  userId INTEGER [not null, ref: > user.id]
+  boardgameId TEXT [not null]
+
+  Indexes {
+    userId
+    (boardgameId, userId) [pk]
+  }
+}
+
+Table wishedBG {
+  userId INTEGER [not null, ref: > user.id]
+  boardgameId TEXT [not null]
+
+  Indexes {
+    userId
+    (boardgameId, userId) [pk]
+  }
+}
+
+Table toTradeBG {
+  userId INTEGER [not null, ref: > user.id]
+  boardgameId TEXT [not null]
+
+  Indexes {
+    userId
+    (boardgameId, userId) [pk]
+  }
+}
+
+Table match {
+  id INTEGER [pk, increment] // auto-increment
+  boardgameId TEXT [not null]
+  winnerUserId INTEGER [ref: > user.id, note: 'If left empty, it will be calculated based on the player with the highest score']
+  duration INTEGER [note: 'Match duration in seconds']
+  details TEXT
+}
+
+Table matchParticipant {
+  matchId INTEGER [not null, ref: > match.id]
+  userId INTEGER [not null, ref: > user.id]
+  finalScore INTEGER
+  details TEXT
+
+  Indexes {
+    (matchId, userId) [pk]
+  }
+}
+
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one; <> many-to-many

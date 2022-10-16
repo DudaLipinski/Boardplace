@@ -1,0 +1,296 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Duda Leo Proj 1
+  description: Duda Leo Proj 1
+paths:
+  /user:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreationPayload"
+      summary: Create a user
+      responses:
+        "200":
+          description: The created user's data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+        "400":
+          description: Incorrect user format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: User already exists with given email
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/{userId}/matches:
+    get:
+      summary: Get all matches on which the given user participated
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: id of the user to have its matches returned
+      responses:
+        "200":
+          description: The matches related to the given user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
+        "404":
+          description: No user found with the given id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /auth:
+    post:
+      summary: Log in with user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        "200":
+          description: The logged in user's
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserInfo"
+        "401":
+          description: Provided credentials doesn't match any valid user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /match:
+    post:
+      summary: Create a match
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchBase"
+      responses:
+        "200":
+          description: The match was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+        "400":
+          description: Incorrect match format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /match/{matchId}:
+    get:
+      summary: Get a match by id, along with its paticipants
+      parameters:
+        - in: path
+          name: matchId
+          schema:
+            type: integer
+          required: true
+          description: id of the match to get
+      responses:
+        "200":
+          description: A match with the given id was succesfully retrieved
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/Match"
+                properties:
+                  participants:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/MatchParticipant"
+        "404":
+          description: No match was found with the provided id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    UserBase:
+      title: User base data
+      description: Information that define an user
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        age:
+          type: integer
+          minimum: 1
+          maximum: 120
+        email:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - age
+        - email
+      additionalProperties: false
+    Auth:
+      title: Auth
+      description: Data to authenticate a user
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+      additionalProperties: false
+    UserInfo:
+      title: User
+      description: User information
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/UserBase"
+      properties:
+        id:
+          type: number
+          minimum: 1
+      required:
+        - id
+      additionalProperties: false
+    UserCreationPayload:
+      title: UserCreationPayload
+      description: Data to create a user
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/UserBase"
+      properties:
+        password:
+          type: string
+      required:
+        - password
+      additionalProperties: false
+    MatchBase:
+      title: Match base
+      description: Match base data
+      type: object
+      properties:
+        boardgameId:
+          type: number
+          description: id of boardgame registered at boardgamegeek api (https://boardgamegeek.com/boardgame/\<boardgameId\>)
+          example: 174430
+        winnerUserId:
+          type: integer
+          description: The id of the user who won the match
+          example: 13872
+        duration:
+          type: integer
+          description: The amount of seconds that the match took
+          example: 3600
+        details:
+          type: string
+          description: Further details about the match
+          example: In this Everdell match, Kresh won by winning a lot of points using his monks
+      required:
+        - boardgameId
+    Match:
+      title: Match
+      description: Full match data, with its registered id
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/MatchBase"
+      properties:
+        id:
+          type: integer
+          description: id of the registered match
+          example: 14902
+      required:
+        - id
+      additionalProperties: false
+    MatchParticipant:
+      title: Match participant
+      description: Relationship between a match and participant, along with his score and details on that specific match
+      type: object
+      properties:
+        matchId:
+          type: integer
+          description: id of the match on which the user participated
+          example: 23189
+        userId:
+          type: integer
+          description: id of the user who participated on the match
+          example: 13803
+        finalScore:
+          type: string
+          description: Final score that the user achieved on the match
+          example: 50 / 'A' / 'exceptional'
+        details:
+          type: string
+          description: Further details related to the user's perfomance on the match
+          example: Maria was able to increase her titanium production in the beginning, which snowballed her Terraforming mars company that was increase each of her titanium worth one more MC
+      required:
+        - matchId
+        - userId
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          description: A human readable error message
+          type: string
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+security:
+  - ApiKey: []
