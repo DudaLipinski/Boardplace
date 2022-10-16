@@ -8,17 +8,17 @@ export const createUser = (user) => {
   })
     .then((response) => {
       if (response.status === 409) {
-        throw new Error("User already exists");
+        throw new Error("User already exists")
       }
 
       if (response.status !== 200) {
-        throw new Error("An error occurred");
+        throw new Error("An error occurred")
       }
 
-      return response.json();
+      return response.json()
     })
-    .catch((error) => console.error(error.message));
-};
+    .catch((error) => console.error(error.message))
+}
 
 export const authUser = (login) => {
   return fetch("http://localhost:3007/auth", {
@@ -29,13 +29,13 @@ export const authUser = (login) => {
     },
   }).then((response) => {
     if (response.status === 401) {
-      throw new Error("Provided credentials doesn't match any valid user");
+      throw new Error("Provided credentials doesn't match any valid user")
     }
 
     if (response.status !== 200) {
-      throw new Error("An error occurred");
+      throw new Error("An error occurred")
     }
 
-    return response.json();
-  });
-};
+    return response.json()
+  })
+}

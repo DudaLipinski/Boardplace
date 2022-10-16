@@ -55,7 +55,9 @@ export const Login = () => {
                 minength="8"
                 required
               ></Styled.Field>
-              <Styled.Button>Login</Styled.Button>
+              <Styled.Button size="large" type="primary">
+                Login
+              </Styled.Button>
             </Styled.Form>
             <Styled.SignUpText>
               Don’t have an account?
