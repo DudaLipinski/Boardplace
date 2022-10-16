@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectors as userSelectors } from "../state/user";
-import { Menu } from "./Menu/Menu";
-import { Canva, WrapperContent } from "./Canva";
-import { LoggedOut } from "./LoggedOut";
+import { Menu } from "../components/Menu/Menu";
+import { Canva, WrapperContent } from "../components/Canva";
+import { LoggedOut } from "../components/LoggedOut";
 
 export const Profile = () => {
   const userData = useSelector(userSelectors.getUser);
@@ -18,10 +18,10 @@ export const Profile = () => {
             <WrapperContent>
               <div data-testid="user-details">
                 <p data-testid="user-details__name">
-                  {userData?.firstName} {userData?.lastName}
+                  Name: {userData?.firstName} {userData?.lastName}
                 </p>
-                <p>{userData?.email}</p>
-                <p>{userData?.age}</p>
+                <p>E-mail: {userData?.email}</p>
+                <p>Age: {userData?.age}</p>
               </div>
             </WrapperContent>
           </Canva>
