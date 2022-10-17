@@ -55,7 +55,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Match"
+                  allOf:
+                    - $ref: "#/components/schemas/Match"
+                  properties:
+                    winner:
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/MatchParticipant"
         "404":
           description: No user found with the given id
           content:
@@ -102,7 +108,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/MatchBase"
+              allOf:
+                - $ref: "#/components/schemas/MatchBase"
+              properties:
+                participants:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/MatchParticipant"
       responses:
         "200":
           description: The match was successfully created
@@ -157,6 +169,45 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    put:
+      parameters:
+        - in: path
+          name: matchId
+          schema:
+            type: integer
+          required: true
+          description: id of the match to update
+      summary: Update an existing match
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/MatchBase"
+              properties:
+                participants:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/MatchParticipant"
+      responses:
+        "200":
+          description: The match was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Match"
+        "400":
+          description: Incorrect match format
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     UserBase:
@@ -168,12 +219,12 @@ components:
           type: string
         lastName:
           type: string
+        email:
+          type: string
         age:
           type: integer
           minimum: 1
           maximum: 120
-        email:
-          type: string
       required:
         - firstName
         - lastName
@@ -223,24 +274,33 @@ components:
       description: Match base data
       type: object
       properties:
-        boardgameId:
-          type: number
-          description: id of boardgame registered at boardgamegeek api (https://boardgamegeek.com/boardgame/\<boardgameId\>)
-          example: 174430
-        winnerUserId:
-          type: integer
-          description: The id of the user who won the match
-          example: 13872
+        boardgameName:
+          type: string
+          description: (temporary) name of the boardgame
+          example: Everdell
+        date:
+          type: string
+          description: Date when the match took place, in UTC
+          example: 2022-17-10 16:30
         duration:
           type: integer
           description: The amount of seconds that the match took
           example: 3600
-        details:
+        notes:
           type: string
           description: Further details about the match
-          example: In this Everdell match, Kresh won by winning a lot of points using his monks
+          example: In this Everdell match, Kresh won by being the master of pigeons
+        # boardgameId:
+        #   type: number
+        #   description: id of boardgame registered at boardgamegeek api (https://boardgamegeek.com/boardgame/\<boardgameId\>)
+        #   example: 174430
+        # winnerUserId:
+        #   type: integer
+        #   description: The id of the user who won the match
+        #   example: 13872
       required:
-        - boardgameId
+        - authorId
+        - boardgameName
     Match:
       title: Match
       description: Full match data, with its registered id
@@ -252,33 +312,33 @@ components:
           type: integer
           description: id of the registered match
           example: 14902
+        authorId:
+          type: string
+          description: id of the user who is creating the match
+          example: 12384
       required:
         - id
       additionalProperties: false
     MatchParticipant:
-      title: Match participant
-      description: Relationship between a match and participant, along with his score and details on that specific match
+      title: Match participant base
+      description: Relationship between a match and participant, along with his score and notes on that specific match
       type: object
       properties:
-        matchId:
-          type: integer
-          description: id of the match on which the user participated
-          example: 23189
         userId:
           type: integer
           description: id of the user who participated on the match
           example: 13803
-        finalScore:
+        fullName:
           type: string
-          description: Final score that the user achieved on the match
-          example: 50 / 'A' / 'exceptional'
-        details:
-          type: string
-          description: Further details related to the user's perfomance on the match
-          example: Maria was able to increase her titanium production in the beginning, which snowballed her Terraforming mars company that was increase each of her titanium worth one more MC
-      required:
-        - matchId
-        - userId
+          example: Maria Lipinski
+        score:
+          type: number
+          description: Score that the user achieved on the match
+          example: 50
+        # notes:
+        #   type: string
+        #   description: Further details related to the user's perfomance on the match
+        #   example: Maria was able to increase her titanium production in the beginning, which snowballed her Terraforming mars company that was increase each of her titanium worth one more MC
     Error:
       type: object
       required:

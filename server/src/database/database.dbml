@@ -50,17 +50,20 @@ Table toTradeBG {
 
 Table match {
   id INTEGER [pk, increment] // auto-increment
-  boardgameId TEXT [not null]
-  winnerUserId INTEGER [ref: > user.id, note: 'If left empty, it will be calculated based on the player with the highest score']
+  authorId INTEGER [ref: > user.id, not null]
+  boardgameId TEXT
+  boardgameName TEXT [not null]
+  date STRING
   duration INTEGER [note: 'Match duration in seconds']
-  details TEXT
+  notes TEXT
 }
 
 Table matchParticipant {
   matchId INTEGER [not null, ref: > match.id]
   userId INTEGER [not null, ref: > user.id]
-  finalScore INTEGER
-  details TEXT
+  name TEXT
+  score INTEGER
+  notes TEXT
 
   Indexes {
     (matchId, userId) [pk]
