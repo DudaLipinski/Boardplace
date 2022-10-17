@@ -1,13 +1,7 @@
-import db from './index'
+import db from '.'
+import fs from 'fs'
+import path from 'path'
 
-const createUsersTable = `
-  CREATE TABLE IF NOT EXISTS users (
-    firstName TEXT NOT NULL,
-    lastName TEXT NOT NULL,
-    age INTEGER NOT NULL,
-    email TEXT NOT NULL,
-    password TEXT NOT NULL
-  );
-`
+const initSql = fs.readFileSync(path.resolve('./src/database/init.sql')).toString() // TODO: fix this path
 
-db.run(createUsersTable)
+db.run(initSql)
