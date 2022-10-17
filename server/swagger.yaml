@@ -58,10 +58,14 @@ paths:
                   allOf:
                     - $ref: "#/components/schemas/Match"
                   properties:
-                    winner:
+                    participants:
                       type: array
                       items:
-                        $ref: "#/components/schemas/MatchParticipant"
+                        allOf:
+                          - $ref: "#/components/schemas/MatchParticipant"
+                        properties:
+                          isWinner:
+                            type: boolean
         "404":
           description: No user found with the given id
           content:

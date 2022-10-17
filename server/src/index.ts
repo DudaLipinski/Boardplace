@@ -4,7 +4,9 @@ import express from 'express'
 import pino from 'express-pino-logger'
 import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
-import swaggerDocument from './swagger.json' assert { type: "json" }
+import yaml from 'yamljs'
+
+const swaggerDocument = yaml.load('./swagger.yaml')
 
 import db from './database'
 import { setRoutes } from './routes'
