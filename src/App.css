@@ -10,12 +10,6 @@
   color: #1890ff;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto;
-  width: 80%;
-}
-
 .ant-layout.ant-layout-has-sider {
   flex-direction: row;
   height: 100vh;

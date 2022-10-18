@@ -10,6 +10,13 @@ export const Logout = styled(AntButton)`
   }
 `
 
+export const Character = styled.img`
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  margin-bottom: 30px;
+`
+
 export const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;

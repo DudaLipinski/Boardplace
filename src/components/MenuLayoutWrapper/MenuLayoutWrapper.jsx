@@ -1,39 +1,16 @@
 import React, { useState, createElement } from 'react'
+import { items } from './MenuItems'
 
 import { useNavigate } from 'react-router-dom'
-// import { useSelector } from 'react-redux'
-// import { selectors as userSelectors } from '../../state/user'
 import { useDispatch } from 'react-redux'
 import { actions as userActions } from '../../state/user'
 
 import * as Styled from './MenuLayoutWrapper.styles'
 import character from '../../assets/character_2.png'
 
-import {
-  HomeOutlined,
-  TrophyOutlined,
-  UserOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  LogoutOutlined,
-} from '@ant-design/icons'
-import { Button, Layout, Menu as SidebarMenu, Switch } from 'antd'
+import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import { Layout, Menu as SidebarMenu, Switch } from 'antd'
 const { Header, Sider, Content } = Layout
-
-const getItem = (label, key, icon, children, type) => {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  }
-}
-const items = [
-  getItem('Home', 'home', <HomeOutlined />),
-  getItem('Matches', 'matches', <TrophyOutlined />),
-  getItem('Profile', 'profile', <UserOutlined />),
-]
 
 export const MenuLayoutWrapper = ({ children }) => {
   const dispatch = useDispatch()
@@ -42,13 +19,13 @@ export const MenuLayoutWrapper = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
 
   const [theme, setTheme] = useState('light')
-  const [current, setCurrent] = useState('1')
+  const [current, setCurrent] = useState('board')
   const changeTheme = (value) => {
     setTheme(value ? 'dark' : 'light')
   }
   const onClick = (e) => {
-    console.log('click ', e)
     setCurrent(e.key)
+    navigate(`/${e.key}`)
   }
 
   const doLogout = () => {
@@ -69,7 +46,7 @@ export const MenuLayoutWrapper = ({ children }) => {
         theme={theme}
         style={{ padding: '30px 0' }}
       >
-        <img className="logo" src={character} alt="" />
+        <Styled.Character src={character} alt="" />
         <SidebarMenu
           theme={theme}
           onClick={onClick}
