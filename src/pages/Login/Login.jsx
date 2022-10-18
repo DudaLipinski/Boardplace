@@ -1,73 +1,124 @@
-import React from "react"
-import { useNavigate } from "react-router-dom"
-import * as Styled from "./Login.styles"
-import { authUser } from "../../services"
-import { useDispatch } from "react-redux"
-import { actions as userActions } from "../../state/user"
-import illustration from "../../assets/loginIllustration.png"
+import React from 'react'
+import { authUser } from '../../services'
+
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { actions as userActions } from '../../state/user'
+
+import * as Styled from './Login.styles'
+import { Link } from 'react-router-dom'
+import { Col, Row, Typography, Button, Checkbox, Form, Input } from 'antd'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import illustration from '../../assets/loginIllustration.png'
+
+const { Title, Paragraph } = Typography
 
 export const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const doLogin = (event) => {
-    event.preventDefault()
+  const onFinishFailed = (errorInfo) => {
+    alert('Failed:', errorInfo)
+  }
 
-    const formData = new FormData(event.target)
-    const login = {}
-
-    for (const [key, value] of formData.entries()) {
-      login[key] = value
-    }
-
-    authUser(login)
+  const doLogin = (userData) => {
+    authUser(userData)
       .then((user) => {
         dispatch(userActions.removeUser())
         dispatch(userActions.addUser(user))
       })
       .catch((error) => alert(error.message))
 
-    navigate("/dashboard")
+    navigate('/dashboard')
   }
 
   return (
     <>
       <Styled.Wrapper>
-        <Styled.Container>
-          <Styled.WrapperForm>
-            <Styled.Title>Boardplace</Styled.Title>
-            <Styled.Description>
-              Please fill your detail to access your account.
-            </Styled.Description>
-            <Styled.Form onSubmit={doLogin}>
-              <Styled.Label htmlFor="email">E-mail</Styled.Label>
-              <Styled.Field
-                type="email"
-                name="email"
-                id="email"
-                required
-              ></Styled.Field>
-              <Styled.Label htmlFor="password">Password</Styled.Label>
-              <Styled.Field
-                type="password"
-                name="password"
-                id="password"
-                minength="8"
-                required
-              ></Styled.Field>
-              <Styled.Button size="large" type="primary">
-                Login
-              </Styled.Button>
-            </Styled.Form>
-            <Styled.SignUpText>
-              Don’t have an account?
-              <Styled.SignUp to="/create-account">Sign up</Styled.SignUp>
-            </Styled.SignUpText>
-          </Styled.WrapperForm>
-          <Styled.WrapperIllustration>
-            <Styled.Illustration src={illustration} alt="" />
-          </Styled.WrapperIllustration>
-        </Styled.Container>
+        <Row style={{ height: 'inherit' }}>
+          <Col xs={24} md={24} lg={10}>
+            <Styled.WrapperForm>
+              <div style={{ width: '60%' }}>
+                <Title level={2}>Boarplace</Title>
+                <Paragraph>
+                  Please fill your detail to access your account.
+                </Paragraph>
+                <Form
+                  name="normal_login"
+                  className="login-form"
+                  initialValues={{
+                    remember: true,
+                  }}
+                  onFinishFailed={onFinishFailed}
+                  onFinish={doLogin}
+                >
+                  <Form.Item
+                    name="email"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your e-mail!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      size="large"
+                      prefix={<UserOutlined className="site-form-item-icon" />}
+                      placeholder="E-mail"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name="password"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input your Password!',
+                      },
+                    ]}
+                  >
+                    <Input
+                      size="large"
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      type="password"
+                      placeholder="Password"
+                    />
+                  </Form.Item>
+                  <Form.Item>
+                    <Form.Item noStyle>
+                      <Checkbox>Remember me</Checkbox>
+                    </Form.Item>
+
+                    <Link className="login-form-forgot" to="">
+                      Forgot password
+                    </Link>
+                  </Form.Item>
+
+                  <Form.Item>
+                    <Button
+                      size="large"
+                      type="primary"
+                      htmlType="submit"
+                      className="login-form-button"
+                    >
+                      Log in
+                    </Button>{' '}
+                    Or <Link to="">register now!</Link>
+                  </Form.Item>
+                </Form>
+              </div>
+            </Styled.WrapperForm>
+          </Col>
+          <Col
+            xs={24}
+            md={24}
+            lg={14}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <Styled.WrapperIllustration>
+              <Styled.Illustration src={illustration} alt="" />
+            </Styled.WrapperIllustration>
+          </Col>
+        </Row>
       </Styled.Wrapper>
     </>
   )
