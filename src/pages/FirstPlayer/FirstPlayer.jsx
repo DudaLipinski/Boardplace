@@ -1,13 +1,10 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
-import { useSelector } from "react-redux"
-import { selectors as userSelectors } from "../../state/user"
+import { useSelector } from 'react-redux'
+import { selectors as userSelectors } from '../../state/user'
 // import { useDispatch } from "react-redux"
 // import { actions as userActions } from "../../state/user"
 
-import { Menu } from "../../components/Menu/Menu"
-import { LoggedOut } from "../../components/LoggedOut"
-import { Canva, WrapperContent } from "../../components/Canva"
 // import { useEffect } from "react"
 
 const Form = styled.form`
@@ -61,8 +58,6 @@ export const Label = styled.label`
 export const FirstPlayer = () => {
   // const dispatch = useDispatch()
 
-  const userIsLoggedIn = useSelector(userSelectors.getIsLoggedIn)
-
   // const addPlayer = (event) => {
   //   event.preventDefault()
 
@@ -73,32 +68,16 @@ export const FirstPlayer = () => {
   //     player[key] = value
   //   }
 
-    // dispatch(userActions.addPlayer(player));
+  // dispatch(userActions.addPlayer(player));
   // }
 
   return (
-    <>
-      <Menu />
-      {userIsLoggedIn ? (
-        <>
-          <Canva>
-            <WrapperContent>
-              <Form >
-                <Label htmlFor="playerName">Player's name</Label>
-                <Field
-                  id="playerName"
-                  type="text"
-                  name="playerName"
-                  required
-                ></Field>
-                <Button>Add player</Button>
-              </Form>
-            </WrapperContent>
-          </Canva>
-        </>
-      ) : (
-        <LoggedOut />
-      )}
-    </>
+    <div>
+      <Form>
+        <Label htmlFor="playerName">Player's name</Label>
+        <Field id="playerName" type="text" name="playerName" required></Field>
+        <Button>Add player</Button>
+      </Form>
+    </div>
   )
 }
