@@ -23,6 +23,7 @@ export const MenuLayoutWrapper = ({ children }) => {
   const changeTheme = (value) => {
     setTheme(value ? 'dark' : 'light')
   }
+
   const onClick = (e) => {
     setCurrent(e.key)
     navigate(`/${e.key}`)

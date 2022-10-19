@@ -10,7 +10,7 @@ import { CreateMatch } from './pages/Match/CreateMatch'
 
 import { useSelector } from 'react-redux'
 import { selectors as userSelectors } from './state/user'
-import { Matches } from './pages/Match/Matches'
+import { MatchList } from './pages/Match/MatchList'
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector(userSelectors.getIsLoggedIn)
@@ -22,7 +22,7 @@ const AppRoutes = () => {
       <Routes>
         {/* logged in */}
         <Route path="/profile" element={<Profile />} />
-        <Route path="/matches" element={<Matches />} />
+        <Route path="/matches" element={<MatchList />} />
         <Route path="/match" element={<CreateMatch />} />
         <Route path="/first-player" element={<FirstPlayer />} />
         <Route path="*" element={<Dashboard />} />

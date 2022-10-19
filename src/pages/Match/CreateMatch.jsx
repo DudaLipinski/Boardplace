@@ -11,6 +11,7 @@ import {
   Typography,
 } from 'antd'
 
+const { TextArea } = Input
 const { Title } = Typography
 
 export const CreateMatch = () => {
@@ -50,10 +51,11 @@ export const CreateMatch = () => {
             >
               <DatePicker />
             </Form.Item>
-            <Form.Item name="time">
-              <Input placeholder="Time" />
+            <Form.Item name="duration">
+              <Input placeholder="Duration" />
             </Form.Item>
           </div>
+          <TextArea rows={3} placeholder="Notes" style={{ marginBottom: 20 }} />
           <Form.List name="players">
             {(fields, { add, remove }) => (
               <>
@@ -110,14 +112,14 @@ export const CreateMatch = () => {
             <Button type="primary" htmlType="submit">
               Save
             </Button>
-            <Button
+            {/* <Button
               type="primary"
               danger
               htmlType="submit"
               style={{ float: 'right' }}
             >
               Delete
-            </Button>
+            </Button> */}
           </Form.Item>
         </Form>
       </Col>
