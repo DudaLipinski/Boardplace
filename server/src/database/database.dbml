@@ -1,13 +1,69 @@
-// If schema name is omitted, it will default to "public" schema.
 Table user {
-  id INTEGER [pk, increment] // auto-increment
+  id INTEGER [pk, increment]
   email TEXT [not null]
   firstName TEXT [not null]
   lastName TEXT [not null]
   age INTEGER [not null]
   password TEXT [not null]
-  addressId INTEGER [ref: - address.id]
+  addressId INTEGER
 }
+Ref: user.addressId > address.id [delete: no action, update: no action]
+
+Table unregisteredFriend {
+  id INTEGER [pk, increment]
+  userId INTEGER [not null]
+  friendName TEXT
+}
+Ref: unregisteredFriend.userId > user.id [delete: cascade, update: no action]
+
+Table match {
+  id INTEGER [pk, increment]
+  authorId INTEGER [not null]
+  // boardgameId TEXT // FUTURE
+  boardgameName TEXT [not null]
+  date STRING
+  duration INTEGER [note: 'Match duration in seconds']
+  notes TEXT
+
+  Indexes {
+    authorId
+  }
+}
+Ref: match.authorId > user.id [delete: no action, update: no action]
+
+Table matchParticipant {
+  matchId INTEGER [not null]
+  // userId INTEGER [ref: > user.id]
+  // unregisteredFriendId INTEGER [not null, ref: > unregisteredFriend.id]
+  fullName TEXT [not null]
+  score INTEGER
+  // notes TEXT
+
+  Indexes {
+    matchId
+    (matchId, fullName) [pk]
+  }
+  // Indexes {
+  //   (matchId, userId, unregisteredFriendId) [pk]
+  // }
+}
+Ref: matchParticipant.matchId > match.id [delete: cascade, update: no action]
+
+
+// --------------
+// For the future
+// --------------
+
+Table friendship {
+  userAId INTEGER
+  userBId INTEGER
+
+  Indexes {
+    (userAId, userBId) [pk]
+  }
+}
+Ref: friendship.userAId > user.id [delete: cascade, update: no action]
+Ref: friendship.userBId > user.id [delete: cascade, update: no action]
 
 Table address {
   id INTEGER [pk, increment] // auto-increment
@@ -19,7 +75,7 @@ Table address {
 }
 
 Table favoriteBG {
-  userId INTEGER [not null, ref: > user.id]
+  userId INTEGER [not null]
   boardgameId TEXT [not null]
 
   Indexes {
@@ -27,9 +83,10 @@ Table favoriteBG {
     (boardgameId, userId) [pk]
   }
 }
+Ref: favoriteBG.userId > user.id [delete: cascade, update: no action]
 
 Table wishedBG {
-  userId INTEGER [not null, ref: > user.id]
+  userId INTEGER [not null]
   boardgameId TEXT [not null]
 
   Indexes {
@@ -37,9 +94,10 @@ Table wishedBG {
     (boardgameId, userId) [pk]
   }
 }
+Ref: wishedBG.userId > user.id [delete: cascade, update: no action]
 
 Table toTradeBG {
-  userId INTEGER [not null, ref: > user.id]
+  userId INTEGER [not null]
   boardgameId TEXT [not null]
 
   Indexes {
@@ -47,29 +105,4 @@ Table toTradeBG {
     (boardgameId, userId) [pk]
   }
 }
-
-Table match {
-  id INTEGER [pk, increment] // auto-increment
-  authorId INTEGER [ref: > user.id, not null]
-  boardgameId TEXT
-  boardgameName TEXT [not null]
-  date STRING
-  duration INTEGER [note: 'Match duration in seconds']
-  notes TEXT
-}
-
-Table matchParticipant {
-  matchId INTEGER [not null, ref: > match.id]
-  userId INTEGER [not null, ref: > user.id]
-  name TEXT
-  score INTEGER
-  notes TEXT
-
-  Indexes {
-    (matchId, userId) [pk]
-  }
-}
-
-// Creating references
-// You can also define relaionship separately
-// > many-to-one; < one-to-many; - one-to-one; <> many-to-many
+Ref: toTradeBG.userId > user.id [delete: cascade, update: no action]

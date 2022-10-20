@@ -1,5 +1,5 @@
-import { RequestHandler } from "express"
-import validateAuth from "../database/schemas/auth"
+import { RequestHandler } from 'express'
+import validateAuth from '../schemas/auth'
 
 import * as userModel from '../models/user'
 
@@ -27,4 +27,3 @@ export const auth: RequestHandler = async (req, res) => {
     res.status(500).send()
   }
 }
-

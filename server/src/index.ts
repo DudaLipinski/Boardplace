@@ -17,21 +17,20 @@ const app = express()
 
 app.use(cors())
 app.options('*', cors())
+
 app.use(express.json())
+
 app.use(ipfilter.IpFilter(['127.0.0.1']))
+
 app.use(pino())
-app.use(
-  '/api-docs',
-  swaggerUi.serve,
-  swaggerUi.setup(swaggerDocument)
-)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 setRoutes(app)
 
 const port = process.env.PORT
-app.listen(
-  port,
-  () => console.log(`Express server is running on localhost:${port}`
-))
+app.listen(port, () =>
+  console.log(`Express server is running on localhost:${port}`)
+)
 
 process.on('exit', () => db.close())

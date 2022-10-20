@@ -1,9 +1,10 @@
-import { RequestHandler } from "express"
+import { RequestHandler } from 'express'
 import omit from 'lodash.omit'
 
-import validateUser from "../database/schemas/user"
-import validateAuth from "../database/schemas/auth"
+import validateUser from '../schemas/user'
+import validateAuth from '../schemas/auth'
 import * as userModel from '../models/user'
+import { getErrorMessage } from '../schemas/utils'
 
 export const create: RequestHandler = async (req, res) => {
   const user = req.body
@@ -15,11 +16,7 @@ export const create: RequestHandler = async (req, res) => {
 
   const validUser = validateUser(user)
   if (!validUser) {
-    const errorMessage = validateUser.errors ?
-      validateUser.errors
-        .map(({ message }) => message)
-        .join(', ')
-      : 'Invalid format'
+    const errorMessage = getErrorMessage(validateUser)
 
     res.status(400).send({ message: errorMessage })
     return
@@ -28,7 +25,9 @@ export const create: RequestHandler = async (req, res) => {
   try {
     const userWithSameEmail = await userModel.getByEmail(user.email)
     if (userWithSameEmail) {
-      return res.status(409).send('There\'s already a user registered with this email')
+      return res
+        .status(409)
+        .send("There's already a user registered with this email")
     }
 
     const id = await userModel.create(user)

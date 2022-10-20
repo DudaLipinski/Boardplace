@@ -1,9 +1,15 @@
-import { User } from "../database/schemas/user"
 import db from '../database'
 
-//  const getByEmail = ()
+export interface User {
+  id: number
+  firstName: string
+  lastName: string
+  age: number
+  email: string
+  password: string
+}
 
-export const create = (user: User) => {
+export const create = (user: Omit<User, 'id'>) => {
   const query = `INSERT INTO users(
     firstName,
     lastName,
@@ -13,19 +19,19 @@ export const create = (user: User) => {
   ) VALUES (?,?,?,?,?)`
 
   return new Promise((resolve, reject) => {
-    db.run(query, [
-      user.firstName,
-      user.lastName,
-      user.age,
-      user.email,
-      user.password
-    ], function(error) {
-      if (error) {
-        reject(`An error occurred while trying to create an user: ${error?.message}`)
-      }
+    db.run(
+      query,
+      [user.firstName, user.lastName, user.age, user.email, user.password],
+      function (error) {
+        if (error) {
+          reject(
+            `An error occurred while trying to create an user: ${error?.message}`
+          )
+        }
 
-      resolve(this.lastID)
-    })
+        resolve(this.lastID)
+      }
+    )
   })
 }
 
@@ -36,16 +42,22 @@ export const remove = (auth: Pick<User, 'email' | 'password'>) => {
   `
 
   return new Promise((resolve, reject) => {
-    db.run(query, {
-      $email: auth.email,
-      $password: auth.password,
-    }, function(error) {
-      if (error) {
-        reject(`An error occurred while trying to delete an user: ${error?.message}`)
-      }
+    db.run(
+      query,
+      {
+        $email: auth.email,
+        $password: auth.password,
+      },
+      function (error) {
+        if (error) {
+          reject(
+            `An error occurred while trying to delete an user: ${error?.message}`
+          )
+        }
 
-      resolve(this.changes > 0)
-    })
+        resolve(this.changes > 0)
+      }
+    )
   })
 }
 
@@ -56,15 +68,21 @@ export const getByEmail = (email: string) => {
   `
 
   return new Promise((resolve, reject) => {
-    db.get(query, {
-      $email: email,
-    }, function(error, user) {
-      if (error) {
-        reject(`An error occurred while trying to fetch an user by email: ${error?.message}`)
-      }
+    db.get(
+      query,
+      {
+        $email: email,
+      },
+      function (error, user) {
+        if (error) {
+          reject(
+            `An error occurred while trying to fetch an user by email: ${error?.message}`
+          )
+        }
 
-      resolve(user)
-    })
+        resolve(user)
+      }
+    )
   })
 }
 
@@ -77,15 +95,21 @@ export const auth = (auth: Pick<User, 'email' | 'password'>) => {
   `
 
   return new Promise((resolve, reject) => {
-    db.get(query, {
-      $email: auth.email,
-      $password: auth.password
-    }, function(error, user) {
-      if (error) {
-        return reject(`An error occurred while trying to auth: ${error?.message}`)
-      }
+    db.get(
+      query,
+      {
+        $email: auth.email,
+        $password: auth.password,
+      },
+      function (error, user) {
+        if (error) {
+          return reject(
+            `An error occurred while trying to auth: ${error?.message}`
+          )
+        }
 
-      resolve(user)
-    })
+        resolve(user)
+      }
+    )
   })
 }

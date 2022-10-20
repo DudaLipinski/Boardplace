@@ -10,33 +10,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserCreationPayload"
+              $ref: '#/components/schemas/UserCreationPayload'
       summary: Create a user
       responses:
-        "200":
+        '200':
           description: The created user's data
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserInfo"
-        "400":
+                $ref: '#/components/schemas/UserInfo'
+        '400':
           description: Incorrect user format
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "409":
+                $ref: '#/components/schemas/Error'
+        '409':
           description: User already exists with given email
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected internal error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /user/{userId}/matches:
     get:
       summary: Get all matches on which the given user participated
@@ -48,7 +48,7 @@ paths:
           required: true
           description: id of the user to have its matches returned
       responses:
-        "200":
+        '200':
           description: The matches related to the given user
           content:
             application/json:
@@ -56,28 +56,30 @@ paths:
                 type: array
                 items:
                   allOf:
-                    - $ref: "#/components/schemas/Match"
+                    - $ref: '#/components/schemas/Match'
                   properties:
                     participants:
                       type: array
                       items:
                         allOf:
-                          - $ref: "#/components/schemas/MatchParticipant"
+                          - $ref: '#/components/schemas/HydratedMatchParticipant'
                         properties:
                           isWinner:
                             type: boolean
-        "404":
+                  required:
+                    - participants
+        '404':
           description: No user found with the given id
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected internal error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /auth:
     post:
       summary: Log in with user
@@ -85,26 +87,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Auth"
+              $ref: '#/components/schemas/Auth'
       responses:
-        "200":
+        '200':
           description: The logged in user's
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserInfo"
-        "401":
+                $ref: '#/components/schemas/UserInfo'
+        '401':
           description: Provided credentials doesn't match any valid user
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected internal error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /match:
     post:
       summary: Create a match
@@ -113,31 +115,31 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: "#/components/schemas/MatchBase"
+                - $ref: '#/components/schemas/MatchBase'
               properties:
                 participants:
                   type: array
                   items:
-                    $ref: "#/components/schemas/MatchParticipant"
+                    $ref: '#/components/schemas/MatchParticipantBase'
       responses:
-        "200":
+        '200':
           description: The match was successfully created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Match"
-        "400":
+                $ref: '#/components/schemas/Match'
+        '400':
           description: Incorrect match format
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected internal error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
   /match/{matchId}:
     get:
       summary: Get a match by id, along with its paticipants
@@ -149,30 +151,30 @@ paths:
           required: true
           description: id of the match to get
       responses:
-        "200":
+        '200':
           description: A match with the given id was succesfully retrieved
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "#/components/schemas/Match"
+                  - $ref: '#/components/schemas/Match'
                 properties:
                   participants:
                     type: array
                     items:
-                      $ref: "#/components/schemas/MatchParticipant"
-        "404":
+                      $ref: '#/components/schemas/HydratedMatchParticipant'
+        '404':
           description: No match was found with the provided id
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected internal error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
     put:
       parameters:
         - in: path
@@ -187,31 +189,31 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: "#/components/schemas/MatchBase"
+                - $ref: '#/components/schemas/MatchBase'
               properties:
                 participants:
                   type: array
                   items:
-                    $ref: "#/components/schemas/MatchParticipant"
+                    $ref: '#/components/schemas/MatchParticipantBase'
       responses:
-        "200":
+        '200':
           description: The match was successfully created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Match"
-        "400":
+                $ref: '#/components/schemas/Match'
+        '400':
           description: Incorrect match format
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
-        "500":
+                $ref: '#/components/schemas/Error'
+        '500':
           description: Unexpected internal error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     UserBase:
@@ -253,7 +255,7 @@ components:
       description: User information
       type: object
       allOf:
-        - $ref: "#/components/schemas/UserBase"
+        - $ref: '#/components/schemas/UserBase'
       properties:
         id:
           type: number
@@ -266,7 +268,7 @@ components:
       description: Data to create a user
       type: object
       allOf:
-        - $ref: "#/components/schemas/UserBase"
+        - $ref: '#/components/schemas/UserBase'
       properties:
         password:
           type: string
@@ -278,6 +280,10 @@ components:
       description: Match base data
       type: object
       properties:
+        authorId:
+          type: string
+          description: id of the user who is creating the match
+          example: 12384
         boardgameName:
           type: string
           description: (temporary) name of the boardgame
@@ -286,14 +292,17 @@ components:
           type: string
           description: Date when the match took place, in UTC
           example: 2022-17-10 16:30
+          nullable: true
         duration:
           type: integer
           description: The amount of seconds that the match took
           example: 3600
+          nullable: true
         notes:
           type: string
           description: Further details about the match
           example: In this Everdell match, Kresh won by being the master of pigeons
+          nullable: true
         # boardgameId:
         #   type: number
         #   description: id of boardgame registered at boardgamegeek api (https://boardgamegeek.com/boardgame/\<boardgameId\>)
@@ -310,31 +319,32 @@ components:
       description: Full match data, with its registered id
       type: object
       allOf:
-        - $ref: "#/components/schemas/MatchBase"
+        - $ref: '#/components/schemas/MatchBase'
       properties:
         id:
           type: integer
           description: id of the registered match
           example: 14902
-        authorId:
-          type: string
-          description: id of the user who is creating the match
-          example: 12384
       required:
         - id
       additionalProperties: false
-    MatchParticipant:
+    MatchParticipantBase:
       title: Match participant base
       description: Relationship between a match and participant, along with his score and notes on that specific match
       type: object
       properties:
-        userId:
-          type: integer
-          description: id of the user who participated on the match
-          example: 13803
-        fullName:
+        # userId:
+        #   type: integer
+        #   description: id of the user who participated on the match
+        #   example: 13803
+        # unregisteredFriendId:
+        #   type: integer
+        #   description: id of the unregistered friend who participated in the match
+        #   example: 13803
+        fullName: # --- TEMPORARY
           type: string
-          example: Maria Lipinski
+          description: (temporary) full name of the participant
+          example: Maria Lipânska
         score:
           type: number
           description: Score that the user achieved on the match
@@ -343,6 +353,22 @@ components:
         #   type: string
         #   description: Further details related to the user's perfomance on the match
         #   example: Maria was able to increase her titanium production in the beginning, which snowballed her Terraforming mars company that was increase each of her titanium worth one more MC
+      required:
+        - fullName
+        - score
+    HydratedMatchParticipant:
+      title: Match participant base
+      description: Relationship between a match and participant, along with his score and notes on that specific match
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/MatchParticipantBase'
+      properties:
+        fullName:
+          type: string
+          description: Full name of the user/unregistered friend
+          example: Guilherme Tatibana
+      required:
+        - fullName
     Error:
       type: object
       required:
