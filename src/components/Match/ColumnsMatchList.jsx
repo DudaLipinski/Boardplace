@@ -1,5 +1,14 @@
 import { Space } from 'antd'
 import React from 'react'
+import { Link } from 'react-router-dom'
+
+export const showButtonViewMatch = (matchId) => {
+  return (
+    <Space size="middle">
+      <Link to={`/match/${matchId}`}>View</Link>
+    </Space>
+  )
+}
 
 export const columns = [
   {
@@ -24,12 +33,8 @@ export const columns = [
   },
   {
     title: 'Action',
-    dataIndex: '',
-    key: 'x',
-    render: () => (
-      <Space size="middle">
-        <a>View</a>
-      </Space>
-    ),
+    dataIndex: 'action',
+    key: 'action',
+    render: 0,
   },
 ]

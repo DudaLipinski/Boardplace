@@ -1,5 +1,8 @@
 import React from 'react'
-import { columns } from '../../components/Match/ColumnsMatchList'
+import {
+  columns,
+  showButtonViewMatch,
+} from '../../components/Match/ColumnsMatchList'
 // import { expandedRowRender } from './ExpandedMatch'
 import { Table, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +15,20 @@ export const MatchList = () => {
   const userId = useSelector(userSelectors.getUserId)
 
   const matches = useMatches(userId)
+
+  const matchItems = matches?.map((item) => {
+    const winner = item.participants.find((item) => item.isWinner)
+
+    const actionColumn = columns.find((item) => item.title === 'Action')
+    actionColumn.render = () => showButtonViewMatch(item.id)
+
+    return {
+      boardgameName: item.boardgameName,
+      winner: winner.fullName,
+      date: item.date,
+      duration: item.duration,
+    }
+  })
 
   return (
     <>
@@ -27,7 +44,7 @@ export const MatchList = () => {
         // expandable={{
         //   expandedRowRender,
         // }}
-        dataSource={matches}
+        dataSource={matchItems}
       />
     </>
   )
