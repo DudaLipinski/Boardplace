@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

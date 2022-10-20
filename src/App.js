@@ -1,9 +1,9 @@
-import "./App.css"
-import "antd/dist/antd.css"
-import { Provider } from "react-redux"
-import AppRoutes from "./AppRoutes"
-import state from "./state"
-import { BrowserRouter } from "react-router-dom"
+import './App.css'
+import 'antd/dist/antd.css'
+import AppRoutes from './AppRoutes'
+import state from './state'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 
 function App() {
   return (
