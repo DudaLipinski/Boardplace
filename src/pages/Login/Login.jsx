@@ -26,6 +26,7 @@ export const Login = () => {
       .then((user) => {
         dispatch(userActions.removeUser())
         dispatch(userActions.addUser(user))
+        localStorage.setItem('user', JSON.stringify(userData))
       })
       .catch((error) => alert(error.message))
 

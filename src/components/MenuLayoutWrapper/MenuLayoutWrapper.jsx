@@ -31,6 +31,7 @@ export const MenuLayoutWrapper = ({ children }) => {
 
   const doLogout = () => {
     dispatch(userActions.removeUser())
+    localStorage.clear()
     navigate('/login')
   }
 
