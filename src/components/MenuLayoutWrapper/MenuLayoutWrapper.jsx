@@ -16,16 +16,17 @@ export const MenuLayoutWrapper = ({ children }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const pathname = window.location.pathname
+  const activeMenuItem = pathname.split('').splice(1).join('')
+
   const [collapsed, setCollapsed] = useState(false)
 
   const [theme, setTheme] = useState('light')
-  const [current, setCurrent] = useState('board')
   const changeTheme = (value) => {
     setTheme(value ? 'dark' : 'light')
   }
 
   const onClick = (e) => {
-    setCurrent(e.key)
     navigate(`/${e.key}`)
   }
 
@@ -52,7 +53,7 @@ export const MenuLayoutWrapper = ({ children }) => {
         <SidebarMenu
           theme={theme}
           onClick={onClick}
-          selectedKeys={[current]}
+          selectedKeys={activeMenuItem}
           mode="inline"
           items={items}
         />
