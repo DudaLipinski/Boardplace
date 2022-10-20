@@ -43,14 +43,10 @@ export const authUser = (login) => {
 }
 
 export const getMatches = (userId) => {
-  const items = matches.filter((item) => item.authorId == userId)
+  const items = matches.filter((item) => item.authorId === userId)
   return items
   // const res = await fetch(`http://localhost:3007/user/${id}/matches`, {
-  //   method: 'POST',
-  //   body: JSON.stringify(id),
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
+  //   method: 'GET',
   // }).then((response) => {
   //   if (response.status === 404) {
   //     throw new Error('No user found with the given id')
@@ -65,11 +61,7 @@ export const getMatches = (userId) => {
 
 export const getMatch = async (matchId) => {
   const res = await fetch(`http://localhost:3007/match/${matchId}`, {
-    method: 'POST',
-    body: JSON.stringify(matchId),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    method: 'GET',
   }).then((response) => {
     if (response.status === 404) {
       throw new Error('No match was found with the provided id')

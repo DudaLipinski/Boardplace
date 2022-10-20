@@ -22,7 +22,7 @@ export const useMatches = (userId) => {
     }
 
     loadMatches()
-  }, [])
+  }, [matches])
 
   return matches
 }

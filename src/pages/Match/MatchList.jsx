@@ -1,5 +1,5 @@
 import React from 'react'
-import { columns, data } from './ColumnsMatchList'
+import { columns } from '../../components/Match/ColumnsMatchList'
 // import { expandedRowRender } from './ExpandedMatch'
 import { Table, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'

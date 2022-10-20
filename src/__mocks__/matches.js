@@ -7,7 +7,7 @@ export const matches = [
     duration: 3600,
     notes: 'In this Everdell match, Kresh won by being the master of pigeons',
     id: 14902,
-    authorId: '2',
+    authorId: 2,
     participants: [
       {
         userId: 13803,
@@ -41,7 +41,7 @@ export const matches = [
     duration: 3600,
     notes: 'In this Everdell match, Kresh won by being the master of pigeons',
     id: 14902,
-    authorId: '1',
+    authorId: 1,
     participants: [
       {
         userId: 13803,
@@ -75,7 +75,7 @@ export const matches = [
     duration: 3600,
     notes: 'In this Everdell match, Kresh won by being the master of pigeons',
     id: 14902,
-    authorId: '1',
+    authorId: 1,
     participants: [
       {
         userId: 13803,
@@ -109,7 +109,7 @@ export const matches = [
     duration: 3600,
     notes: 'In this Everdell match, Kresh won by being the master of pigeons',
     id: 14902,
-    authorId: '1',
+    authorId: 1,
     participants: [
       {
         userId: 13803,
