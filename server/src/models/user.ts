@@ -10,7 +10,7 @@ export interface User {
 }
 
 export const create = (user: Omit<User, 'id'>) => {
-  const query = `INSERT INTO users(
+  const query = `INSERT INTO user(
     firstName,
     lastName,
     age,
@@ -36,7 +36,7 @@ export const create = (user: Omit<User, 'id'>) => {
 }
 
 export const remove = (auth: Pick<User, 'email' | 'password'>) => {
-  const query = `DELETE FROM users
+  const query = `DELETE FROM user
     WHERE email = $email
     AND password = $password
   `
@@ -62,7 +62,7 @@ export const remove = (auth: Pick<User, 'email' | 'password'>) => {
 }
 
 export const getByEmail = (email: string) => {
-  const query = `SELECT * FROM users
+  const query = `SELECT * FROM user
     WHERE email = $email
     LIMIT 1
   `
@@ -88,7 +88,7 @@ export const getByEmail = (email: string) => {
 
 export const auth = (auth: Pick<User, 'email' | 'password'>) => {
   const query = `SELECT rowId id, firstName, lastName, age, email
-    FROM users
+    FROM user
     WHERE email = $email
     AND password = $password
     LIMIT 1

@@ -24,6 +24,7 @@ export const auth: RequestHandler = async (req, res) => {
 
     res.status(200).send(loggedUser)
   } catch (e) {
+    console.error(e)
     res.status(500).send()
   }
 }
