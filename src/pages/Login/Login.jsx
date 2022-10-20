@@ -40,7 +40,9 @@ export const Login = () => {
           <Col xs={24} md={24} lg={10}>
             <Styled.WrapperForm>
               <div style={{ width: '60%' }}>
-                <Title level={2}>Boarplace</Title>
+                <Title level={2}>
+                  Board<em style={{ paddingLeft: 2 }}>it!</em>
+                </Title>
                 <Paragraph>
                   Please fill your detail to access your account.
                 </Paragraph>
