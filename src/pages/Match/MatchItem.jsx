@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { getMatch } from '../../services'
+import {
+  MinusCircleOutlined,
+  PlusOutlined,
+  SmileOutlined,
+} from '@ant-design/icons'
+import { getMatch, createMatch } from '../../services'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
+import { selectors as userSelectors } from '../../state/user'
 import {
   Button,
   Col,
@@ -12,28 +18,105 @@ import {
   Space,
   DatePicker,
   Typography,
+  InputNumber,
+  Result,
 } from 'antd'
 
 const { TextArea } = Input
 const { Title } = Typography
 
+const Participants = ({ fields, add, remove }) => {
+  return (
+    <>
+      {fields.map(({ key, name, ...restField }, index) => {
+        return (
+          <Space
+            key={key}
+            style={{
+              display: 'flex',
+              marginBottom: 25,
+              alignItems: 'center',
+            }}
+            className="hello"
+            align="baseline"
+          >
+            <Form.Item
+              {...restField}
+              name={[name, 'fullName']}
+              label="Player's name"
+              style={{ marginBottom: 0 }}
+              rules={[
+                {
+                  required: true,
+                  message: "Missing player's name",
+                },
+              ]}
+            >
+              <Input placeholder="Player's name" />
+            </Form.Item>
+            <Form.Item
+              {...restField}
+              name={[name, 'score']}
+              label="Score"
+              style={{ marginBottom: 0 }}
+              rules={[
+                {
+                  required: true,
+                  message: 'Missing score',
+                },
+              ]}
+            >
+              <InputNumber placeholder="Score" />
+            </Form.Item>
+            <MinusCircleOutlined onClick={() => remove(index)} />
+          </Space>
+        )
+      })}
+      <Form.Item>
+        <Button
+          type="dashed"
+          onClick={() => add()}
+          block
+          icon={<PlusOutlined />}
+        >
+          Add player
+        </Button>
+      </Form.Item>
+    </>
+  )
+}
+
 export const MatchItem = () => {
-  const { matchId } = useParams()
-  const [match, setMatch] = useState()
+  const { id } = useSelector(userSelectors.getUser)
+  // const { matchId } = useParams()
+  // const [match, setMatch] = useState()
 
-  const loadMatch = async () => {
-    const matchFounded = await getMatch(matchId)
-    setMatch(matchFounded)
-  }
+  // const loadMatch = async () => {
+  //   const matchFounded = await getMatch(matchId)
+  //   setMatch(matchFounded)
+  // }
 
-  useEffect(() => {
-    loadMatch()
-  }, [])
+  // useEffect(() => {
+  //   loadMatch()
+  // }, [])
 
-  console.log(match)
+  const Success = (
+    <Result
+      icon={<SmileOutlined />}
+      title="Great, we have done all the operations!"
+      extra={<Button type="primary">Next</Button>}
+    />
+  )
 
-  const onFinish = (values) => {
-    console.log('Received values of form:', values)
+  const doMatch = (matchData) => {
+    const date = matchData.date.format()
+    const match = { ...matchData, authorId: id, date: date }
+
+    createMatch(match)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((error) => alert(error.message))
   }
 
   return (
@@ -43,16 +126,24 @@ export const MatchItem = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <Row style={{ justifyContent: 'center' }}>
-        <Col xs={24} md={24} lg={12} xl={7}>
+      <Row
+        style={{
+          justifyContent: 'center',
+          backgroundColor: 'white',
+          padding: '30px 30px',
+        }}
+      >
+        <Col xs={24} md={24} lg={14} xl={7}>
           <Title level={2}>Match</Title>
           <Form
-            name="dynamic_form_nest_item"
-            onFinish={onFinish}
+            layout="vertical"
+            name="create-match"
+            onFinish={doMatch}
             autoComplete="off"
           >
             <Form.Item
-              name="boardgame"
+              name="boardgameName"
+              label="Boardgame"
               rules={[
                 {
                   required: true,
@@ -65,6 +156,7 @@ export const MatchItem = () => {
             <div style={{ display: 'flex', gap: 8 }}>
               <Form.Item
                 name="date"
+                label="Date"
                 rules={[
                   {
                     required: true,
@@ -74,79 +166,34 @@ export const MatchItem = () => {
               >
                 <DatePicker />
               </Form.Item>
-              <Form.Item name="duration">
-                <Input placeholder="Duration" />
+              <Form.Item name="duration" label="Duration">
+                <InputNumber placeholder="Duration" />
               </Form.Item>
             </div>
+            <label htmlFor="notes">Notes</label>
             <TextArea
               rows={3}
+              name="notes"
               placeholder="Notes"
+              allowClear={true}
               style={{ marginBottom: 20 }}
             />
-            <Form.List name="players">
+            <Form.List
+              initialValue={[{ fullName: '', score: null }]}
+              name="participants"
+            >
               {(fields, { add, remove }) => (
-                <>
-                  {fields.map(({ key, name, ...restField }) => (
-                    <Space
-                      key={key}
-                      style={{
-                        display: 'flex',
-                        marginBottom: 8,
-                      }}
-                      align="baseline"
-                    >
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'player']}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Missing player's name",
-                          },
-                        ]}
-                      >
-                        <Input placeholder="Player's name" />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, 'score']}
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Missing score',
-                          },
-                        ]}
-                      >
-                        <Input placeholder="Score" />
-                      </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(name)} />
-                    </Space>
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="dashed"
-                      onClick={() => add()}
-                      block
-                      icon={<PlusOutlined />}
-                    >
-                      Add player
-                    </Button>
-                  </Form.Item>
-                </>
+                <Participants fields={fields} add={add} remove={remove} />
               )}
             </Form.List>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ float: 'right' }}
+              >
                 Save
               </Button>
-              {/* <Button
-              type="primary"
-              danger
-              htmlType="submit"
-              style={{ float: 'right' }}
-            >
-              Delete
-            </Button> */}
             </Form.Item>
           </Form>
         </Col>

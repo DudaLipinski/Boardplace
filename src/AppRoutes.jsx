@@ -19,7 +19,6 @@ import { AnimatePresence } from 'framer-motion'
 
 const AuthenticatedRoutes = () => {
   const location = useLocation()
-  console.log(location.pathname)
 
   return (
     <AnimatePresence>

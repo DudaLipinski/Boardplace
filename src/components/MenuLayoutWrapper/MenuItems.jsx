@@ -10,7 +10,7 @@ const getItem = (label, key, icon, children, type) => {
   }
 }
 export const items = [
-  getItem('Board', 'board', <HomeOutlined />),
+  getItem('Dashboard', 'dashboard', <HomeOutlined />),
   getItem('Matches', 'matches', <TrophyOutlined />),
   getItem('Profile', 'profile', <UserOutlined />),
 ]
