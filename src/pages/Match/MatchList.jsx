@@ -1,14 +1,12 @@
 import React from 'react'
-import {
-  columns,
-  showButtonViewMatch,
-} from '../../components/Match/ColumnsMatchList'
+import { columns } from '../../components/Match/ColumnsMatchList'
 // import { expandedRowRender } from './ExpandedMatch'
 import { Table, Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useMatches } from '../../hooks/useMatches'
 import { useSelector } from 'react-redux'
 import { selectors as userSelectors } from '../../state/user'
+import { motion } from 'framer-motion'
 
 export const MatchList = () => {
   const navigate = useNavigate()
@@ -19,10 +17,9 @@ export const MatchList = () => {
   const matchItems = matches?.map((item) => {
     const winner = item.participants.find((item) => item.isWinner)
 
-    const actionColumn = columns.find((item) => item.title === 'Action')
-    actionColumn.render = () => showButtonViewMatch(item.id)
-
     return {
+      id: item.id,
+      key: item.id,
       boardgameName: item.boardgameName,
       winner: winner.fullName,
       date: item.date,
@@ -31,7 +28,12 @@ export const MatchList = () => {
   })
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      transition={{ delay: 0.1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Button
         type="primary"
         onClick={() => navigate('/match')}
@@ -46,6 +48,6 @@ export const MatchList = () => {
         // }}
         dataSource={matchItems}
       />
-    </>
+    </motion.div>
   )
 }

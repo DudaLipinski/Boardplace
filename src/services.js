@@ -59,18 +59,18 @@ export const getMatches = (userId) => {
   // })
 }
 
-export const getMatch = async (matchId) => {
-  const res = await fetch(`http://localhost:3007/match/${matchId}`, {
-    method: 'GET',
-  }).then((response) => {
-    if (response.status === 404) {
-      throw new Error('No match was found with the provided id')
-    }
-
-    if (response.status !== 200) {
-      throw new Error('An error occurred')
-    }
-
-    return res.json()
-  })
+export const getMatch = (matchId) => {
+  const match = matches.find((item) => item.id === Number(matchId))
+  return match
+  // const res = await fetch(`http://localhost:3007/match/${matchId}`, {
+  //   method: 'GET',
+  // }).then((response) => {
+  //   if (response.status === 404) {
+  //     throw new Error('No match was found with the provided id')
+  //   }
+  //   if (response.status !== 200) {
+  //     throw new Error('An error occurred')
+  //   }
+  //   return res.json()
+  // })
 }

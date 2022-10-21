@@ -1,23 +1,25 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectors as userSelectors } from '../state/user'
+import { motion } from 'framer-motion'
 
 export const Profile = () => {
   const userData = useSelector(userSelectors.getUser)
 
   return (
-    <div>
-      <>
-        <div>
-          <div data-testid="user-details">
-            <p data-testid="user-details__name">
-              Name: {userData?.firstName} {userData?.lastName}
-            </p>
-            <p>E-mail: {userData?.email}</p>
-            <p>Age: {userData?.age}</p>
-          </div>
-        </div>
-      </>
-    </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      transition={{ delay: 0.1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <div data-testid="user-details">
+        <p data-testid="user-details__name">
+          Name: {userData?.firstName} {userData?.lastName}
+        </p>
+        <p>E-mail: {userData?.email}</p>
+        <p>Age: {userData?.age}</p>
+      </div>
+    </motion.div>
   )
 }

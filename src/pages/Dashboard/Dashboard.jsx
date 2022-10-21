@@ -1,13 +1,19 @@
 import React from 'react'
 import { Layout } from 'antd'
+import { motion } from 'framer-motion'
 const { Content } = Layout
 
 export const Dashboard = () => {
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      transition={{ delay: 0.1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Layout>
         <Content className="site-layout-background">Welcome!</Content>
       </Layout>
-    </div>
+    </motion.div>
   )
 }
