@@ -44,8 +44,6 @@ export const create = (match: Omit<Match, 'id'>) => {
         )
       }
 
-      console.log('--- MATCH CREATED')
-      console.log(JSON.stringify(match, null, 2))
       resolve(this.lastID)
     })
   })
