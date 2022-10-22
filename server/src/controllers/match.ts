@@ -33,3 +33,17 @@ export const create: RequestHandler = async (req, res) => {
 
   res.send(200)
 }
+
+export const getAllByUserParticipant: RequestHandler = async (req, res) => {
+  const { userId } = req.params
+  if (!userId) {
+    return res.status(400).send()
+  }
+
+  try {
+    const matches = await matchModel.getAllByAuthor({ authorId: userId })
+    res.status(200).send(matches)
+  } catch (e: any) {
+    res.status(500).send('Internal error')
+  }
+}

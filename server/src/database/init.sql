@@ -29,7 +29,11 @@ CREATE TABLE IF NOT EXISTS `matchParticipant` (
   `score` INTEGER
 );
 
-ALTER TABLE `match` ADD FOREIGN KEY (`authorId`) REFERENCES `user` (`id`);
+CREATE INDEX IF NOT EXISTS `match_index_0` ON `match` (`authorId`);
+
+CREATE INDEX IF NOT EXISTS `matchParticipant_index_1` ON `matchParticipant` (`matchId`);
+
+ALTER TABLE `match` ADD FOREIGN KEY IF NOT EXISTS (`authorId`) REFERENCES `user` (`id`);
 
 ALTER TABLE `matchParticipant` ADD FOREIGN KEY (`matchId`) REFERENCES `match` (`id`);
 

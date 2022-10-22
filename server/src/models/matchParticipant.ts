@@ -3,6 +3,8 @@ import db from '../database'
 export interface MatchParticipant {
   id: string
   matchId: string
+  // userId?: string;
+  // unregisteredFriendId?: string;
   fullName: string
   score: number
 }
