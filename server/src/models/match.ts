@@ -14,6 +14,7 @@ export interface Match {
 interface DigestedParticipant {
   fullName: string
   score: number
+  isWinner?: boolean
 }
 
 interface DigestedMatch extends Match {
@@ -64,13 +65,27 @@ const digestMatchParticipants = (match: MatchWithParticipantsData) => {
     .map((name) => name.slice(1, -1))
   const participantsScores = match.participantsScores.split(',')
 
-  const participants: DigestedParticipant[] = []
-  for (let i = 0; i < participantsFullNames.length; i++) {
-    const fullName = participantsFullNames[i]
-    const score = Number(participantsScores[i])
+  const participants: DigestedParticipant[] = participantsFullNames.map(
+    (fullName, index) => {
+      return { fullName, score: Number(participantsScores[index]) }
+    }
+  )
 
-    participants.push({ fullName, score })
-  }
+  const { index: winnerParticipantIndex } = participants.reduce(
+    (winner, participant, index) => {
+      if (winner.score === null || participant.score > winner.score) {
+        return {
+          index,
+          score: participant.score,
+        }
+      }
+
+      return winner
+    },
+    { index: 0, score: null } as { index: number; score: number | null }
+  )
+
+  participants[winnerParticipantIndex].isWinner = true
 
   return participants
 }
