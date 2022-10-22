@@ -1,3 +1,5 @@
+import omit from 'lodash.omit'
+
 import db from '../database'
 
 export interface Match {
@@ -42,6 +44,8 @@ export const create = (match: Omit<Match, 'id'>) => {
         )
       }
 
+      console.log('--- MATCH CREATED')
+      console.log(JSON.stringify(match, null, 2))
       resolve(this.lastID)
     })
   })
@@ -103,7 +107,7 @@ export const getAllByAuthor = ({ authorId }: { authorId: string }) => {
           const participants = digestMatchParticipants(match)
 
           return {
-            ...match,
+            ...omit(match, ['participantsFullNames', 'participantsScores']),
             participants,
           }
         })

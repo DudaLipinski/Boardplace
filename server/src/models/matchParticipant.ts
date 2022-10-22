@@ -40,6 +40,9 @@ export const createMultiple = ({
       }
     })
 
+    console.log('--- PARTICIPANTS CREATED')
+    console.log(JSON.stringify(participants, null, 2))
+
     resolve()
   })
 }

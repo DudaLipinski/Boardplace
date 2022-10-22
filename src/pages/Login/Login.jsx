@@ -9,6 +9,8 @@ import * as Styled from './Login.styles'
 import { Link } from 'react-router-dom'
 import { Col, Row, Typography, Button, Checkbox, Form, Input } from 'antd'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { motion } from 'framer-motion'
+
 import illustration from '../../assets/loginIllustration.png'
 
 const { Title, Paragraph } = Typography
@@ -34,7 +36,12 @@ export const Login = () => {
   }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      transition={{ delay: 0.2 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Styled.Wrapper>
         <Row style={{ height: 'inherit' }}>
           <Col xs={24} md={24} lg={10}>
@@ -105,7 +112,7 @@ export const Login = () => {
                     >
                       Log in
                     </Button>{' '}
-                    Or <Link to="">register now!</Link>
+                    Or <Link to="/create-account">register now!</Link>
                   </Form.Item>
                 </Form>
               </div>
@@ -123,6 +130,6 @@ export const Login = () => {
           </Col>
         </Row>
       </Styled.Wrapper>
-    </>
+    </motion.div>
   )
 }

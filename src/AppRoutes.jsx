@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { authUser } from './services'
 
 import { useDispatch } from 'react-redux'
@@ -13,8 +13,42 @@ import { CreateAccount } from './pages/CreateAccount/CreateAccount'
 import { Dashboard } from './pages/Dashboard/Dashboard'
 import { Profile } from './pages/Profile'
 import { FirstPlayer } from './pages/FirstPlayer/FirstPlayer'
-import { CreateMatch } from './pages/Match/CreateMatch'
+import { MatchItem } from './pages/Match/MatchItem'
 import { MatchList } from './pages/Match/MatchList'
+import { AnimatePresence } from 'framer-motion'
+
+const AuthenticatedRoutes = () => {
+  const location = useLocation()
+
+  return (
+    <AnimatePresence>
+      <MenuLayoutWrapper>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/matches" element={<MatchList />} />
+          <Route path="/match" exact element={<MatchItem />} />
+          <Route path="/match/:matchId" element={<MatchItem />} />
+          <Route path="/first-player" element={<FirstPlayer />} />
+          <Route path="*" element={<Dashboard />} />
+        </Routes>
+      </MenuLayoutWrapper>
+    </AnimatePresence>
+  )
+}
+
+const UnauthenticatedRoutes = () => {
+  const location = useLocation
+
+  return (
+    <AnimatePresence>
+      <Routes location={location} key={location.pathname}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/create-account" element={<CreateAccount />} />
+        <Route path="*" element={<Login />} />
+      </Routes>
+    </AnimatePresence>
+  )
+}
 
 const AppRoutes = () => {
   const dispatch = useDispatch()
@@ -32,30 +66,7 @@ const AppRoutes = () => {
     }
   }, [])
 
-  return isLoggedIn ? (
-    // <AuthenticatedRoutes></AuthenticatedRoutes>
-
-    <MenuLayoutWrapper>
-      <Routes>
-        {/* logged in */}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/matches" element={<MatchList />} />
-        <Route path="/match" element={<CreateMatch />} />
-        <Route path="/first-player" element={<FirstPlayer />} />
-        <Route path="*" element={<Dashboard />} />
-      </Routes>
-    </MenuLayoutWrapper>
-  ) : (
-    // <UnauthenticatedRoutes></UnauthenticatedRoutes>
-    <div>
-      <Routes>
-        {/* logget out */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/create-account" element={<CreateAccount />} />
-        <Route path="*" element={<Login />} />
-      </Routes>
-    </div>
-  )
+  return isLoggedIn ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />
 }
 
 export default AppRoutes
