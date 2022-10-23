@@ -1,0 +1,1 @@
+export const JWT_TOKEN_SECRET_KEY = 'JWT_TOKEN_SECRET'

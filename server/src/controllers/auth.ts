@@ -2,6 +2,8 @@ import { RequestHandler } from 'express'
 import validateAuth from '../schemas/auth'
 
 import * as userModel from '../models/user'
+import { generateAccessToken } from '../auth'
+import { getErrorMessage } from '../schemas/utils'
 
 export const auth: RequestHandler = async (req, res) => {
   const auth = req.body
@@ -11,8 +13,8 @@ export const auth: RequestHandler = async (req, res) => {
 
   const validAuth = validateAuth(auth)
   if (!validAuth) {
-    console.error(validateAuth.errors)
-    res.status(400).send('Invalid email and/or password')
+    const errorMessage = getErrorMessage(validateAuth)
+    res.status(400).send(errorMessage)
     return
   }
 
@@ -22,7 +24,12 @@ export const auth: RequestHandler = async (req, res) => {
       return res.status(401).send()
     }
 
-    res.status(200).send(loggedUser)
+    const token = generateAccessToken(loggedUser.id)
+
+    res.status(200).send({
+      user: loggedUser,
+      token,
+    })
   } catch (e) {
     console.error(e)
     res.status(500).send()

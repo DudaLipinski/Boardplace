@@ -80,6 +80,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+  /user/{userId}/friend:
+    post:
+      summary: Get all friends related to given user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: id of the user to have its friends returned
+      responses:
+        '200':
+          description: The friends related to the given user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/UserInfo'
+        '404':
+          description: No user found with the given id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/{userId}/friends:
+    get:
+      summary: Get all friends related to given user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+          required: true
+          description: id of the user to have its friends returned
+      responses:
+        '200':
+          description: The friends related to the given user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/UserInfo'
+        '404':
+          description: No user found with the given id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /auth:
     post:
       summary: Log in with user
@@ -90,17 +154,85 @@ paths:
               $ref: '#/components/schemas/Auth'
       responses:
         '200':
-          description: The logged in user's
+          description: The logged in user's data along with the generated JWT token
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserInfo'
+                properties:
+                  user:
+                    allOf:
+                      - $ref: '#/components/schemas/UserInfo'
+                  token:
+                    type: string
+                    description: JWT token
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2NjUyMTc4MCwiZXhwIjoxNjY2NTQzMzgwfQ.MDwMf43KJDUspoelvhst3FrzWdxaFzmowZ80alZERVQ
         '401':
           description: Provided credentials doesn't match any valid user
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /friendship-request/send:
+    post:
+      summary: Send friendship request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendshipRequestBase'
+      responses:
+        '200':
+          description: Friendship request sent
+        '409':
+          description: Friendship request already exists
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /friendship-request/{friendshipRequestId}/accept:
+    post:
+      summary: Accept friendship request
+      parameters:
+        - in: path
+          name: friendshipRequestId
+          schema:
+            type: string
+          required: true
+          description: id of the friendship request to be accepted
+      responses:
+        '200':
+          description: Friendship request accepted successfully
+        '404':
+          description: Friendship request doesn't exist
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /friendship-request/{friendshipRequestId}/decline:
+    post:
+      summary: Decline friendship request
+      parameters:
+        - in: path
+          name: friendshipRequestId
+          schema:
+            type: string
+          required: true
+          description: id of the friendship request to be declined
+      responses:
+        '200':
+          description: Friendship request declined successfully
+        '404':
+          description: Friendship request doesn't exist
         '500':
           description: Unexpected internal error
           content:
@@ -215,6 +347,10 @@ paths:
     #           schema:
     #             $ref: '#/components/schemas/Error'
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
   schemas:
     UserBase:
       title: User base data
@@ -236,19 +372,6 @@ components:
         - lastName
         - age
         - email
-      additionalProperties: false
-    Auth:
-      title: Auth
-      description: Data to authenticate a user
-      type: object
-      properties:
-        email:
-          type: string
-        password:
-          type: string
-      required:
-        - email
-        - password
       additionalProperties: false
     UserInfo:
       title: User
@@ -273,6 +396,44 @@ components:
         password:
           type: string
       required:
+        - password
+      additionalProperties: false
+    FriendshipRequestBase:
+      title: Friendship request base data
+      description: Information that define a friendship request
+      type: object
+      properties:
+        requestingUserId:
+          type: string
+        requestedUserId:
+          type: string
+      required:
+        - requestingUserId
+        - requestedUserId
+      additionalProperties: false
+    FriendshipRequestInfo:
+      title: Friendship request info
+      description: Existent friendship request info
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/FriendshipRequestBase'
+      properties:
+        id:
+          type: string
+      required:
+        - id
+      additionalProperties: false
+    Auth:
+      title: Auth
+      description: Data to authenticate a user
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
         - password
       additionalProperties: false
     MatchBase:
@@ -377,10 +538,5 @@ components:
         message:
           description: A human readable error message
           type: string
-  securitySchemes:
-    ApiKey:
-      type: apiKey
-      in: header
-      name: X-Api-Key
 security:
-  - ApiKey: []
+  - BearerAuth: []

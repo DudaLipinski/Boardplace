@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/yamljs": "^0.2.31",
     "ajv": "^8.11.0",
     "cors": "^2.8.5",

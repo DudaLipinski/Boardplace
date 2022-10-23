@@ -10,6 +10,7 @@ const swaggerDocument = yaml.load('./swagger.yaml')
 
 import db from './database'
 import { setRoutes } from './routes'
+import { authenticateToken } from './auth'
 
 dotenv.config({ path: '.env.local' })
 
@@ -25,6 +26,8 @@ app.use(ipfilter.IpFilter(['127.0.0.1']))
 app.use(pino())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
+app.use(authenticateToken)
 
 setRoutes(app)
 

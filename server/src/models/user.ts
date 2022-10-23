@@ -1,7 +1,7 @@
 import db from '../database'
 
 export interface User {
-  id: number
+  id: string
   firstName: string
   lastName: string
   age: number
@@ -94,7 +94,7 @@ export const auth = (auth: Pick<User, 'email' | 'password'>) => {
     LIMIT 1
   `
 
-  return new Promise((resolve, reject) => {
+  return new Promise<User>((resolve, reject) => {
     db.get(
       query,
       {
