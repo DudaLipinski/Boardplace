@@ -175,45 +175,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    put:
-      parameters:
-        - in: path
-          name: matchId
-          schema:
-            type: integer
-          required: true
-          description: id of the match to update
-      summary: Update an existing match
-      requestBody:
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: '#/components/schemas/MatchBase'
-              properties:
-                participants:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/MatchParticipantBase'
-      responses:
-        '200':
-          description: The match was successfully created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Match'
-        '400':
-          description: Incorrect match format
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected internal error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+    # put:
+    #   parameters:
+    #     - in: path
+    #       name: matchId
+    #       schema:
+    #         type: integer
+    #       required: true
+    #       description: id of the match to update
+    #   summary: Update an existing match
+    #   requestBody:
+    #     content:
+    #       application/json:
+    #         schema:
+    #           allOf:
+    #             - $ref: '#/components/schemas/MatchBase'
+    #           properties:
+    #             participants:
+    #               type: array
+    #               items:
+    #                 $ref: '#/components/schemas/MatchParticipantBase'
+    #   responses:
+    #     '200':
+    #       description: The match was successfully created
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Match'
+    #     '400':
+    #       description: Incorrect match format
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
+    #     '500':
+    #       description: Unexpected internal error
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/components/schemas/Error'
 components:
   schemas:
     UserBase:
