@@ -5,4 +5,6 @@ const matchEndpoint = '/match'
 
 export function set(app: Express) {
   app.post(matchEndpoint, matchController.create)
+
+  app.get(`${matchEndpoint}/:matchId`, matchController.getById)
 }

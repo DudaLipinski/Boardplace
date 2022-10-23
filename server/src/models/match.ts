@@ -21,35 +21,6 @@ interface DigestedMatch extends Match {
   participants: DigestedParticipant[]
 }
 
-export const create = (match: Omit<Match, 'id'>) => {
-  const query = `INSERT INTO match(
-    authorId,
-    boardgameName,
-    date,
-    duration,
-    notes
-  ) VALUES (?, ?, ?, ?, ?)`
-  const values = [
-    match.authorId,
-    match.boardgameName,
-    match.date,
-    match.duration,
-    match.notes,
-  ]
-
-  return new Promise<number>((resolve, reject) => {
-    db.run(query, values, function (error) {
-      if (error) {
-        reject(
-          `An error occurred while creating multiple match participants: ${error?.message}`
-        )
-      }
-
-      resolve(this.lastID)
-    })
-  })
-}
-
 interface MatchWithParticipantsData extends Match {
   participantsFullNames: string
   participantsScores: string
@@ -90,19 +61,84 @@ const digestMatchParticipants = (match: MatchWithParticipantsData) => {
   return participants
 }
 
-export const getAllByAuthor = ({ authorId }: { authorId: string }) => {
-  const query = `SELECT
-      m.*,
-      m.rowid as id,
-      group_concat(mp.fullName, '","') as participantsFullNames,
-      group_concat(mp.score) as participantsScores
-    FROM
-      \`match\` m
-    JOIN matchParticipant mp
-      ON m.rowid = mp.matchId
+const GET_MATCH_WITH_PARTICIPANTS_QUERY = `
+  SELECT
+    m.*,
+    m.rowid as id,
+    group_concat(mp.fullName, '","') as participantsFullNames,
+    group_concat(mp.score) as participantsScores
+  FROM
+    \`match\` m
+  JOIN matchParticipant mp
+    ON m.rowid = mp.matchId
+`
+
+export const create = (match: Omit<Match, 'id'>) => {
+  const query = `INSERT INTO match(
+    authorId,
+    boardgameName,
+    date,
+    duration,
+    notes
+  ) VALUES (?, ?, ?, ?, ?)`
+  const values = [
+    match.authorId,
+    match.boardgameName,
+    match.date,
+    match.duration,
+    match.notes,
+  ]
+
+  return new Promise<number>((resolve, reject) => {
+    db.run(query, values, function (error) {
+      if (error) {
+        reject(
+          `An error occurred while creating multiple match participants: ${error?.message}`
+        )
+      }
+
+      resolve(this.lastID)
+    })
+  })
+}
+
+export const getById = ({ id }: { id: string }) => {
+  const query = `
+    ${GET_MATCH_WITH_PARTICIPANTS_QUERY}
     WHERE
-      m.authorId = $authorId
-    group by m.rowid;
+      m.rowid = $id;
+  `
+
+  return new Promise<DigestedMatch | null>((resolve, reject) => {
+    db.get(
+      query,
+      { $id: id },
+      function (error, match: MatchWithParticipantsData) {
+        if (!match.id) {
+          return resolve(null)
+        }
+
+        if (error) {
+          reject(
+            `An error occurred while trying to fetch matches by id: ${error?.message}`
+          )
+        }
+
+        const participants = digestMatchParticipants(match)
+        resolve({
+          ...omit(match, ['participantsFullNames', 'participantsScores']),
+          participants,
+        })
+      }
+    )
+  })
+}
+
+export const getAllByAuthor = ({ authorId }: { authorId: string }) => {
+  const query = `
+    ${GET_MATCH_WITH_PARTICIPANTS_QUERY}
+    WHERE
+      m.authorId = $authorId;
   `
 
   return new Promise<DigestedMatch[]>((resolve, reject) => {

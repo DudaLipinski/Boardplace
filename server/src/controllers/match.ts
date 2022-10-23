@@ -47,3 +47,21 @@ export const getAllByUserParticipant: RequestHandler = async (req, res) => {
     res.status(500).send('Internal error')
   }
 }
+
+export const getById: RequestHandler = async (req, res) => {
+  const { matchId } = req.params
+  if (!matchId) {
+    return res.status(400).send()
+  }
+
+  try {
+    const match = await matchModel.getById({ id: matchId })
+    if (!match) {
+      return res.status(404).send('Match not found')
+    }
+
+    res.status(200).send(match)
+  } catch (e: any) {
+    res.status(500).send('Internal error')
+  }
+}
