@@ -4,7 +4,7 @@ import { selectors as userSelectors } from '../state/user'
 import { motion } from 'framer-motion'
 
 export const Profile = () => {
-  const userData = useSelector(userSelectors.getUser)
+  const user = useSelector(userSelectors.getUser)
 
   return (
     <motion.div
@@ -15,10 +15,10 @@ export const Profile = () => {
     >
       <div data-testid="user-details">
         <p data-testid="user-details__name">
-          Name: {userData?.firstName} {userData?.lastName}
+          Name: {user?.firstName} {user?.lastName}
         </p>
-        <p>E-mail: {userData?.email}</p>
-        <p>Age: {userData?.age}</p>
+        <p>E-mail: {user?.email}</p>
+        <p>Age: {user?.age}</p>
       </div>
     </motion.div>
   )

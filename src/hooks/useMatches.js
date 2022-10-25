@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { getMatches } from '../services'
+import { getMatches } from '../services/match'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectors as userSelectors,
@@ -8,7 +8,6 @@ import {
 
 export const useMatches = (userId) => {
   const dispatch = useDispatch()
-
   const matches = useSelector(userSelectors.getUserMatches)
 
   const loadMatches = async () => {
@@ -17,12 +16,8 @@ export const useMatches = (userId) => {
   }
 
   useEffect(() => {
-    if (matches?.length) {
-      return
-    }
-
     loadMatches()
-  }, [matches])
+  }, [])
 
   return matches
 }
