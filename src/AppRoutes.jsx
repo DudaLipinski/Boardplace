@@ -59,7 +59,29 @@ const AppRoutes = () => {
     //todo: getUser by token to maintain login
   }, [])
 
-  return isLoggedIn ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />
+  return isLoggedIn ? (
+    <div
+      style={{
+        width: '100%',
+        height: '100vh',
+        margin: 'auto',
+        backgroundColor: '#1C1B1E',
+      }}
+    >
+      <AuthenticatedRoutes />
+    </div>
+  ) : (
+    <div
+      style={{
+        width: '100%',
+        height: '100vh',
+        margin: 'auto',
+        backgroundColor: '#1C1B1E',
+      }}
+    >
+      <UnauthenticatedRoutes />
+    </div>
+  )
 }
 
 export default AppRoutes

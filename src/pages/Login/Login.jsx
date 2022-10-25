@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { authUser } from '../../services/user'
 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { actions as userActions } from '../../state/user'
+import { Link } from 'react-router-dom'
 
 import * as Styled from './Login.styles'
-import { Link } from 'react-router-dom'
-import { Col, Row, Typography, Button, Checkbox, Form, Input } from 'antd'
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Input } from '../../components/Input'
+import { Button } from 'antd-mobile'
+import { AutoCenter } from 'antd-mobile'
 import { motion } from 'framer-motion'
-
-import illustration from '../../assets/loginIllustration.png'
-
-const { Title, Paragraph } = Typography
 
 export const Login = () => {
   const dispatch = useDispatch()
@@ -38,97 +35,81 @@ export const Login = () => {
       transition={{ delay: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      style={{ height: 'inherit' }}
     >
-      <Styled.Wrapper>
-        <Row style={{ height: 'inherit' }}>
-          <Col xs={24} md={24} lg={10}>
-            <Styled.WrapperForm>
-              <div style={{ width: '60%' }}>
-                <Title level={2}>
-                  Board<em style={{ paddingLeft: 2 }}>it!</em>
-                </Title>
-                <Paragraph>
-                  Please fill your detail to access your account.
-                </Paragraph>
-                <Form
-                  name="normal_login"
-                  className="login-form"
-                  layout="vertical"
-                  initialValues={{
-                    remember: true,
-                  }}
-                  onFinishFailed={onFinishFailed}
-                  onFinish={handleLogin}
-                >
-                  <Form.Item
-                    name="email"
-                    label="E-mail"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your e-mail!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      size="large"
-                      prefix={<UserOutlined className="site-form-item-icon" />}
-                      placeholder="E-mail"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="password"
-                    label="Password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your Password!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      size="large"
-                      prefix={<LockOutlined className="site-form-item-icon" />}
-                      type="password"
-                      placeholder="Password"
-                    />
-                  </Form.Item>
-                  <Form.Item>
-                    <Form.Item noStyle>
-                      <Checkbox>Remember me</Checkbox>
-                    </Form.Item>
-
-                    <Link className="login-form-forgot" to="">
-                      Forgot password
-                    </Link>
-                  </Form.Item>
-                  <Form.Item>
-                    <Button
-                      size="large"
-                      type="primary"
-                      htmlType="submit"
-                      className="login-form-button"
-                    >
-                      Log in
-                    </Button>{' '}
-                    Or <Link to="/create-account">register now!</Link>
-                  </Form.Item>
-                </Form>
-              </div>
-            </Styled.WrapperForm>
-          </Col>
-          <Col
-            xs={24}
-            md={24}
-            lg={14}
-            style={{ display: 'flex', alignItems: 'center' }}
+      <Styled.WrapperForm>
+        <AutoCenter>
+          <Styled.Title>Bordy</Styled.Title>
+        </AutoCenter>
+        <Styled.Paragraph>
+          Please fill your detail to access your account.
+        </Styled.Paragraph>
+        <Styled.Form
+          name="normal_login"
+          layout="vertical"
+          initialValues={{
+            remember: true,
+          }}
+          onFinishFailed={onFinishFailed}
+          onFinish={handleLogin}
+        >
+          <Styled.Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your e-mail!',
+              },
+            ]}
           >
-            <Styled.WrapperIllustration>
-              <Styled.Illustration src={illustration} alt="" />
-            </Styled.WrapperIllustration>
-          </Col>
-        </Row>
-      </Styled.Wrapper>
+            <Input
+              placeholder="E-mail"
+            />
+          </Styled.Form.Item>
+          <Styled.Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your Password!',
+              },
+            ]}
+          >
+            <Input
+              style={{ '--font-size': 'var(--adm-font-size-6)' }}
+              type="password"
+              placeholder="Password"
+            />
+          </Styled.Form.Item>
+          <Styled.Form.Item>
+            <Styled.Checkbox>Remember me</Styled.Checkbox>
+          </Styled.Form.Item>
+          <Styled.Form.Item>
+            <Button
+              block
+              shape="rounded"
+              color="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>
+            <Styled.WrapperLinks>
+              <Link
+                style={{ fontSize: 'var(--adm-font-size-6)' }}
+                to="/create-account"
+              >
+                Register now!
+              </Link>
+              <Link style={{ fontSize: 'var(--adm-font-size-6)' }} to="">
+                Forgot password
+              </Link>
+            </Styled.WrapperLinks>
+          </Styled.Form.Item>
+        </Styled.Form>
+      </Styled.WrapperForm>
     </motion.div>
   )
 }
