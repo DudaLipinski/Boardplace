@@ -24,7 +24,7 @@ export const CreateAccount = () => {
       dispatch(userActions.setUser(createdUser))
     })
 
-    // navigate('/dashboard')
+    navigate('/dashboard')
   }
 
   const onFinishFailed = (errorInfo) => {

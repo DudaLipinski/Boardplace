@@ -1,5 +1,5 @@
-import React from 'react'
-import { authUser } from '../../services'
+import React, { useEffect } from 'react'
+import { authUser } from '../../services/user'
 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -23,16 +23,13 @@ export const Login = () => {
     alert('Failed:', errorInfo)
   }
 
-  const doLogin = (userData) => {
-    authUser(userData)
-      .then((user) => {
-        dispatch(userActions.removeUser())
-        dispatch(userActions.addUser(user))
-        localStorage.setItem('user', JSON.stringify(userData))
+  const handleLogin = (loginPayload) => {
+    authUser(loginPayload)
+      .then(({ user }) => {
+        dispatch(userActions.setUser(user))
+        navigate('/dashboard')
       })
       .catch((error) => alert(error.message))
-
-    navigate('/dashboard')
   }
 
   return (
@@ -56,14 +53,16 @@ export const Login = () => {
                 <Form
                   name="normal_login"
                   className="login-form"
+                  layout="vertical"
                   initialValues={{
                     remember: true,
                   }}
                   onFinishFailed={onFinishFailed}
-                  onFinish={doLogin}
+                  onFinish={handleLogin}
                 >
                   <Form.Item
                     name="email"
+                    label="E-mail"
                     rules={[
                       {
                         required: true,
@@ -79,6 +78,7 @@ export const Login = () => {
                   </Form.Item>
                   <Form.Item
                     name="password"
+                    label="Password"
                     rules={[
                       {
                         required: true,
@@ -102,7 +102,6 @@ export const Login = () => {
                       Forgot password
                     </Link>
                   </Form.Item>
-
                   <Form.Item>
                     <Button
                       size="large"
