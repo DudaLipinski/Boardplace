@@ -7,12 +7,11 @@ import { actions as userActions } from '../../state/user'
 
 import * as Styled from '../Login/Login.styles'
 
-import { Col, Row, Typography, Button, InputNumber, Form, Input } from 'antd'
 import { motion } from 'framer-motion'
-
-import illustration from '../../assets/loginIllustration.png'
-
-const { Title, Paragraph } = Typography
+import { Button, AutoCenter } from 'antd-mobile'
+import { Centralizer } from '../../components/Centralizer'
+import { Input } from '../../components/Input'
+import { Form } from '../../components/Form'
 
 export const CreateAccount = () => {
   const dispatch = useDispatch()
@@ -37,111 +36,101 @@ export const CreateAccount = () => {
       transition={{ delay: 0.2 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      style={{ height: 'inherit' }}
     >
-      <Row style={{ height: 'inherit' }}>
-        <Col xs={24} md={24} lg={10}>
-          <Styled.WrapperForm>
-            <div style={{ width: '60%' }}>
-              <Title level={2}>
-                Board<em style={{ paddingLeft: 2 }}>it!</em>
-              </Title>
-              <Paragraph>
-                Please fill your detail to create your account.
-              </Paragraph>
-              <Form
-                name="normal_create"
-                className="create-form"
-                initialValues={{
-                  remember: true,
-                }}
-                onFinishFailed={onFinishFailed}
-                onFinish={createNewAccount}
-              >
-                <Form.Item
-                  name={'firstName'}
-                  label="First name"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  name={'lastName'}
-                  label="Last name"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  name={'email'}
-                  label="Email"
-                  rules={[
-                    {
-                      type: 'email',
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  name={'age'}
-                  label="Age"
-                  rules={[
-                    {
-                      type: 'number',
-                      min: 0,
-                      max: 99,
-                      required: true,
-                    },
-                  ]}
-                >
-                  <InputNumber />
-                </Form.Item>
-                <Form.Item
-                  label="Password"
-                  name={'password'}
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
-                >
-                  <Input.Password />
-                </Form.Item>
-                <Form.Item>
-                  <Button
-                    size="large"
-                    type="primary"
-                    htmlType="submit"
-                    className="create-form-button"
-                  >
-                    Create Account
-                  </Button>{' '}
-                  Or <Link to="/login">Login</Link>
-                </Form.Item>
-              </Form>
-            </div>
-          </Styled.WrapperForm>
-        </Col>
-        {/* <Col
-            xs={24}
-            md={24}
-            lg={14}
-            style={{ display: 'flex', alignItems: 'center' }}
+      <Centralizer>
+        <AutoCenter>
+          <Styled.Title>Bordy</Styled.Title>
+        </AutoCenter>
+        <Styled.Paragraph>
+          Please fill your details to create your account.
+        </Styled.Paragraph>
+        <Form
+          name="normal_login"
+          layout="vertical"
+          onFinishFailed={onFinishFailed}
+          onFinish={createNewAccount}
+        >
+          <Form.Item
+            name={'firstName'}
+            label="First name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
           >
-            <Styled.WrapperIllustration>
-              <Styled.Illustration src={illustration} alt="" />
-            </Styled.WrapperIllustration>
-          </Col> */}
-      </Row>
+            <Input placeholder="First name" />
+          </Form.Item>
+          <Form.Item
+            name={'lastName'}
+            label="Last name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input placeholder="Last name" />
+          </Form.Item>
+          <Form.Item
+            name={'email'}
+            label="Email"
+            rules={[
+              {
+                type: 'email',
+                required: true,
+              },
+            ]}
+          >
+            <Input placeholder="E-mail" />
+          </Form.Item>
+          <Form.Item
+            name={'age'}
+            label="Age"
+            rules={[
+              {
+                type: 'number',
+                min: 0,
+                max: 99,
+                required: true,
+              },
+            ]}
+          >
+            <Input placeholder="Age" />
+          </Form.Item>
+          <Form.Item
+            label="Password"
+            name={'password'}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input type="password" placeholder="Password" />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              block
+              size="large"
+              color="primary"
+              htmlType="submit"
+              style={{ fontSize: 'var(--adm-font-size-6)' }}
+            >
+              Create Account
+            </Button>
+            <AutoCenter
+              style={{
+                fontSize: 'var(--adm-font-size-6)',
+                marginTop: '20px',
+              }}
+            >
+              <Link to="/login">Login</Link>
+            </AutoCenter>
+          </Form.Item>
+        </Form>
+      </Centralizer>
     </motion.div>
   )
 }

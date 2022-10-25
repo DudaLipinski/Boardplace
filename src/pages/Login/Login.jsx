@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom'
 
 import * as Styled from './Login.styles'
 import { Input } from '../../components/Input'
-import { Button } from 'antd-mobile'
-import { AutoCenter } from 'antd-mobile'
+import { Form } from '../../components/Form'
+import { Centralizer } from '../../components/Centralizer'
+import { Button, AutoCenter } from 'antd-mobile'
 import { motion } from 'framer-motion'
 
 export const Login = () => {
@@ -37,14 +38,14 @@ export const Login = () => {
       exit={{ opacity: 0 }}
       style={{ height: 'inherit' }}
     >
-      <Styled.WrapperForm>
+      <Centralizer>
         <AutoCenter>
           <Styled.Title>Bordy</Styled.Title>
         </AutoCenter>
         <Styled.Paragraph>
-          Please fill your detail to access your account.
+          Please fill your details to access your account.
         </Styled.Paragraph>
-        <Styled.Form
+        <Form
           name="normal_login"
           layout="vertical"
           initialValues={{
@@ -53,7 +54,7 @@ export const Login = () => {
           onFinishFailed={onFinishFailed}
           onFinish={handleLogin}
         >
-          <Styled.Form.Item
+          <Form.Item
             name="email"
             label="E-mail"
             rules={[
@@ -63,11 +64,9 @@ export const Login = () => {
               },
             ]}
           >
-            <Input
-              placeholder="E-mail"
-            />
-          </Styled.Form.Item>
-          <Styled.Form.Item
+            <Input placeholder="E-mail" />
+          </Form.Item>
+          <Form.Item
             name="password"
             label="Password"
             rules={[
@@ -77,39 +76,28 @@ export const Login = () => {
               },
             ]}
           >
-            <Input
-              style={{ '--font-size': 'var(--adm-font-size-6)' }}
-              type="password"
-              placeholder="Password"
-            />
-          </Styled.Form.Item>
-          <Styled.Form.Item>
+            <Input type="password" placeholder="Password" />
+          </Form.Item>
+          <Form.Item>
             <Styled.Checkbox>Remember me</Styled.Checkbox>
-          </Styled.Form.Item>
-          <Styled.Form.Item>
+          </Form.Item>
+          <Form.Item>
             <Button
               block
-              shape="rounded"
+              size="large"
               color="primary"
               htmlType="submit"
-              className="login-form-button"
+              style={{ fontSize: 'var(--adm-font-size-6)' }}
             >
-              Log in
+              Login
             </Button>
             <Styled.WrapperLinks>
-              <Link
-                style={{ fontSize: 'var(--adm-font-size-6)' }}
-                to="/create-account"
-              >
-                Register now!
-              </Link>
-              <Link style={{ fontSize: 'var(--adm-font-size-6)' }} to="">
-                Forgot password
-              </Link>
+              <Link to="/create-account">Register now!</Link>
+              <Link to="">Forgot password</Link>
             </Styled.WrapperLinks>
-          </Styled.Form.Item>
-        </Styled.Form>
-      </Styled.WrapperForm>
+          </Form.Item>
+        </Form>
+      </Centralizer>
     </motion.div>
   )
 }

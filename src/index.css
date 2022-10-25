@@ -24,6 +24,7 @@ code {
 
   --adm-color-neutral-800: #313033;
   --adm-color-background: #1C1B1E;
+  --adm-button-border-radius: 16px;
 
   --adm-font-size-15: 28px;
   --adm-font-family: 'Inter',

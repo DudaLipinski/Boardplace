@@ -6,20 +6,9 @@ export const Checkbox = styled(AntCheckbox)`
 `
 
 export const Form = styled(AntForm)`
-  font-size: var(--adm-font-size-6);
   --border-bottom: solid 0px;
   --border-inner: solid 0px;
   --border-top: solid 0px;
-  padding: 0;
-`
-
-export const WrapperForm = styled.div`
-  height: inherit;
-  padding: 0 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `
 
 export const WrapperLinks = styled.div`
@@ -28,6 +17,7 @@ export const WrapperLinks = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-top: 30px;
+  font-size: var(--adm-font-size-6);
 `
 
 export const Title = styled.h1`
