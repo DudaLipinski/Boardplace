@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import { useParams } from 'react-router-dom'
 import {
   MinusCircleOutlined,
   PlusOutlined,
   SmileOutlined,
 } from '@ant-design/icons'
-import { getMatch, createMatch } from '../../services'
+import { getMatch, createMatch } from '../../services/match'
 import { motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { selectors as userSelectors } from '../../state/user'
@@ -30,46 +31,47 @@ const Participants = ({ fields, add, remove }) => {
     <>
       {fields.map(({ key, name, ...restField }, index) => {
         return (
-          <Space
-            key={key}
-            style={{
-              display: 'flex',
-              marginBottom: 25,
-              alignItems: 'center',
-            }}
-            className="hello"
-            align="baseline"
-          >
-            <Form.Item
-              {...restField}
-              name={[name, 'fullName']}
-              label="Player's name"
-              style={{ marginBottom: 0 }}
-              rules={[
-                {
-                  required: true,
-                  message: "Missing player's name",
-                },
-              ]}
+          <>
+            <Space
+              key={key}
+              style={{
+                display: 'flex',
+                marginBottom: 25,
+                alignItems: 'center',
+              }}
+              className="hello"
+              align="baseline"
             >
-              <Input placeholder="Player's name" />
-            </Form.Item>
-            <Form.Item
-              {...restField}
-              name={[name, 'score']}
-              label="Score"
-              style={{ marginBottom: 0 }}
-              rules={[
-                {
-                  required: true,
-                  message: 'Missing score',
-                },
-              ]}
-            >
-              <InputNumber placeholder="Score" />
-            </Form.Item>
-            <MinusCircleOutlined onClick={() => remove(index)} />
-          </Space>
+              <Form.Item
+                {...restField}
+                name={[name, 'fullName']}
+                label="Player's name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Missing score',
+                  },
+                ]}
+              >
+                <Input placeholder="Player's name" />
+              </Form.Item>
+              <Form.Item
+                {...restField}
+                name={[name, 'score']}
+                label="Score"
+                style={{ marginBottom: 0 }}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Missing score',
+                  },
+                ]}
+              >
+                <InputNumber placeholder="Score" />
+              </Form.Item>
+              <MinusCircleOutlined onClick={() => remove(index)} />
+            </Space>
+          </>
         )
       })}
       <Form.Item>
@@ -88,29 +90,42 @@ const Participants = ({ fields, add, remove }) => {
 
 export const MatchItem = () => {
   const { id } = useSelector(userSelectors.getUser)
-  // const { matchId } = useParams()
-  // const [match, setMatch] = useState()
+  const { matchId } = useParams()
+  const [loading, setLoading] = useState(!!matchId)
+  const [initialValues, setInitialValues] = useState()
 
-  // const loadMatch = async () => {
-  //   const matchFounded = await getMatch(matchId)
-  //   setMatch(matchFounded)
-  // }
+  const loadMatch = async () => {
+    const foundMatch = await getMatch(matchId)
+    setLoading(false)
+    setInitialValues({
+      boardgameName: foundMatch.boardgameName,
+      date: moment(foundMatch.date),
+      duration: foundMatch.duration,
+      notes: foundMatch.notes,
+    })
+  }
 
-  // useEffect(() => {
-  //   loadMatch()
-  // }, [])
+  useEffect(() => {
+    if (matchId) {
+      loadMatch()
+    }
+  }, [])
+
+  if (loading) {
+    return null
+  }
 
   const Success = (
     <Result
       icon={<SmileOutlined />}
       title="Great, we have done all the operations!"
-      extra={<Button type="primary">Next</Button>}
+      extra={<Button type="primary">Ok</Button>}
     />
   )
 
-  const doMatch = (matchData) => {
+  const handleMatch = (matchData) => {
     const date = matchData.date.format()
-    const match = { ...matchData, authorId: id, date: date }
+    const match = { ...matchData, authorId: String(id), date: date }
 
     createMatch(match)
       .then((res) => {
@@ -138,8 +153,9 @@ export const MatchItem = () => {
           <Form
             layout="vertical"
             name="create-match"
-            onFinish={doMatch}
+            onFinish={handleMatch}
             autoComplete="off"
+            initialValues={initialValues}
           >
             <Form.Item
               name="boardgameName"

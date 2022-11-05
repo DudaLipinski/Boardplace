@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 export const renderActionColumn = (text, { id }) => {
   return (
     <Space size="middle">
-      <Link to={`/match/${id}`}>View</Link>
+      <Link to={`${id}`}>View</Link>
     </Space>
   )
 }

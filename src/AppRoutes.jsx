@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { authUser } from './services'
+import { authUser } from './services/user'
 
 import { useDispatch } from 'react-redux'
 import { actions as userActions } from './state/user'
@@ -27,7 +27,7 @@ const AuthenticatedRoutes = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/matches" element={<MatchList />} />
           <Route path="/match" exact element={<MatchItem />} />
-          <Route path="/match/:matchId" element={<MatchItem />} />
+          <Route path="/matches/:matchId" element={<MatchItem />} />
           <Route path="/first-player" element={<FirstPlayer />} />
           <Route path="*" element={<Dashboard />} />
         </Routes>
@@ -37,7 +37,7 @@ const AuthenticatedRoutes = () => {
 }
 
 const UnauthenticatedRoutes = () => {
-  const location = useLocation
+  const location = useLocation()
 
   return (
     <AnimatePresence>
@@ -55,18 +55,33 @@ const AppRoutes = () => {
   const isLoggedIn = useSelector(userSelectors.getIsLoggedIn)
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('user')
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser)
-      authUser(foundUser)
-        .then((user) => {
-          dispatch(userActions.addUser(user))
-        })
-        .catch((error) => alert(error.message))
-    }
+    const loggedInUser = localStorage.getItem('token')
+    //todo: getUser by token to maintain login
   }, [])
 
-  return isLoggedIn ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />
+  return isLoggedIn ? (
+    <div
+      style={{
+        width: '100%',
+        height: '100vh',
+        margin: 'auto',
+        backgroundColor: '#1C1B1E',
+      }}
+    >
+      <AuthenticatedRoutes />
+    </div>
+  ) : (
+    <div
+      style={{
+        width: '100%',
+        height: '100vh',
+        margin: 'auto',
+        backgroundColor: '#1C1B1E',
+      }}
+    >
+      <UnauthenticatedRoutes />
+    </div>
+  )
 }
 
 export default AppRoutes

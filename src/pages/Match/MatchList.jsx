@@ -1,4 +1,5 @@
 import React from 'react'
+import * as dayjs from 'dayjs'
 import { columns } from '../../components/Match/ColumnsMatchList'
 // import { expandedRowRender } from './ExpandedMatch'
 import { Table, Button } from 'antd'
@@ -16,13 +17,14 @@ export const MatchList = () => {
 
   const matchItems = matches?.map((item) => {
     const winner = item.participants.find((item) => item.isWinner)
+    const date = dayjs(item.date).format('ddd, MMMM D, YYYY')
 
     return {
       id: item.id,
       key: item.id,
       boardgameName: item.boardgameName,
       winner: winner.fullName,
-      date: item.date,
+      date: date,
       duration: item.duration,
     }
   })

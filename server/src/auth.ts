@@ -8,12 +8,12 @@ export function generateAccessToken(userId: string | number) {
   }
 
   return jwt.sign({ userId }, process.env.JWT_TOKEN_SECRET, {
-    expiresIn: '6h',
+    expiresIn: '7d',
   })
 }
 
 export const authenticateToken: RequestHandler = (req, res, next) => {
-  if (req.path === '/auth') {
+  if (req.path === '/auth' || (req.path === '/user' && req.method === 'POST'))  {
     return next()
   }
 

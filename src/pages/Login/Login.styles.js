@@ -1,35 +1,33 @@
 import styled from 'styled-components'
-import { Button as AntButton } from 'antd'
+import { Checkbox as AntCheckbox, Form as AntForm } from 'antd-mobile'
 
-export const Button = styled(AntButton)`
-  margin-top: 20px;
-  width: 100%;
+export const Checkbox = styled(AntCheckbox)`
+  --font-size: var(--adm-font-size-6);
 `
 
-export const Wrapper = styled.main`
-  height: -webkit-fill-available;
-  height: fill-available;
-  height: 100vh;
+export const Form = styled(AntForm)`
+  --border-bottom: solid 0px;
+  --border-inner: solid 0px;
+  --border-top: solid 0px;
 `
 
-export const WrapperForm = styled.div`
-  height: 100vh;
+export const WrapperLinks = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-size: var(--adm-font-size-6);
 `
 
-export const WrapperIllustration = styled.div`
-  width: 90%;
-  margin: 0 auto;
-  background-color: #cbcce8;
-  border-radius: 40px;
+export const Title = styled.h1`
+  color: var(--adm-color-white);
+  font-size: var(--adm-font-size-15);
+  font-weight: bold;
 `
 
-export const Illustration = styled.img`
-  width: auto;
-  height: auto;
-  margin: 0 auto;
-  display: block;
+export const Paragraph = styled.p`
+  color: var(--adm-color-white);
+  font-size: var(--adm-font-size-6);
+  text-align: center;
 `
