@@ -4,7 +4,7 @@ import db from '../database'
 
 export interface Match {
   id: string
-  authorId: string
+  authorId: number
   boardgameName: string
   date?: string
   duration?: number
@@ -134,7 +134,7 @@ export const getById = ({ id }: { id: string }) => {
   })
 }
 
-export const getAllByAuthor = ({ authorId }: { authorId: string }) => {
+export const getAllByAuthor = ({ authorId }: { authorId: number }) => {
   const query = `
     ${GET_MATCH_WITH_PARTICIPANTS_QUERY}
     WHERE

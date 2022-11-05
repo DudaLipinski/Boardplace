@@ -25,7 +25,7 @@ const matchCreationSchema: JSONSchemaType<MatchCreationData> = {
   description: 'Match data with its participants',
   type: 'object',
   properties: {
-    authorId: { type: 'string' },
+    authorId: { type: 'number' },
     boardgameName: { type: 'string' },
     date: { type: 'string', nullable: true },
     duration: { type: 'number', nullable: true },
