@@ -3,16 +3,22 @@ import omit from 'lodash.omit'
 import * as matchModel from '../models/match'
 import * as matchParticipantModel from '../models/matchParticipant'
 
-import { validateMatchCreationSchema } from '../schemas/match'
+import { MatchCreationDTO, validateMatchCreationSchema } from '../schemas/match'
 import { getErrorMessage } from '../schemas/utils'
 
 export const create: RequestHandler = async (req, res) => {
-  const matchDTO = req.body
+  const matchDTO = req.body as MatchCreationDTO
   if (!matchDTO) {
     return res.status(400).send()
   }
 
-  const validMatch = validateMatchCreationSchema(matchDTO)
+  const authorId = req.userId
+  const matchDTOWithAuthorId = {
+    ...matchDTO,
+    authorId,
+  }
+
+  const validMatch = validateMatchCreationSchema(matchDTOWithAuthorId)
   if (!validMatch) {
     const errorMessage = getErrorMessage(validateMatchCreationSchema)
 
@@ -20,7 +26,7 @@ export const create: RequestHandler = async (req, res) => {
     return
   }
 
-  const match = omit(matchDTO, ['participants'])
+  const match = omit(matchDTOWithAuthorId, ['participants'])
   const { participants } = matchDTO
 
   try {

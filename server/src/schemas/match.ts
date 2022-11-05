@@ -7,7 +7,7 @@ export interface MatchResponseDTO extends Match {
   participants: Omit<MatchParticipant, 'matchId'>[]
 }
 
-export type MatchCreationData = Omit<Match, 'id'>
+export type MatchCreationData = Omit<Match, 'id' | 'authorId'>
 
 export type MatchCreationParticipantData = Omit<
   MatchParticipant,

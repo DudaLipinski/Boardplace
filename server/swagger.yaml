@@ -441,10 +441,6 @@ components:
       description: Match base data
       type: object
       properties:
-        authorId:
-          type: string
-          description: id of the user who is creating the match
-          example: 12384
         boardgameName:
           type: string
           description: (temporary) name of the boardgame
