@@ -37,49 +37,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /user/{userId}/matches:
-    get:
-      summary: Get all matches on which the given user participated
-      parameters:
-        - in: path
-          name: userId
-          schema:
-            type: integer
-          required: true
-          description: id of the user to have its matches returned
-      responses:
-        '200':
-          description: The matches related to the given user
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  allOf:
-                    - $ref: '#/components/schemas/Match'
-                  properties:
-                    participants:
-                      type: array
-                      items:
-                        allOf:
-                          - $ref: '#/components/schemas/HydratedMatchParticipant'
-                        properties:
-                          isWinner:
-                            type: boolean
-                  required:
-                    - participants
-        '404':
-          description: No user found with the given id
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Unexpected internal error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
   /user/{userId}/friend:
     post:
       summary: Get all friends related to given user
@@ -266,6 +223,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '500':
+          description: Unexpected internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /matches:
+    get:
+      summary: Get all matches on which the logged user participated
+      responses:
+        '200':
+          description: The matches related to the given user
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Match'
+                  properties:
+                    participants:
+                      type: array
+                      items:
+                        allOf:
+                          - $ref: '#/components/schemas/HydratedMatchParticipant'
+                        properties:
+                          isWinner:
+                            type: boolean
+                  required:
+                    - participants
         '500':
           description: Unexpected internal error
           content:

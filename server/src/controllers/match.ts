@@ -40,11 +40,8 @@ export const create: RequestHandler = async (req, res) => {
   res.send(200)
 }
 
-export const getAllByUserParticipant: RequestHandler = async (req, res) => {
-  const { userId } = req.params
-  if (!userId) {
-    return res.status(400).send()
-  }
+export const getAllByLoggedUser: RequestHandler = async (req, res) => {
+  const { userId } = req
 
   try {
     const matches = await matchModel.getAllByAuthor({ authorId: userId })

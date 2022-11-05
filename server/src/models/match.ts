@@ -152,14 +152,17 @@ export const getAllByAuthor = ({ authorId }: { authorId: string }) => {
           )
         }
 
-        const digestedMatches = matches.map((match) => {
-          const participants = digestMatchParticipants(match)
+        const digestedMatches = matches
+          // TODO: understand why this join is returning a nullified row when no matches are found
+          .filter(({ authorId }) => authorId)
+          .map((match) => {
+            const participants = digestMatchParticipants(match)
 
-          return {
-            ...omit(match, ['participantsFullNames', 'participantsScores']),
-            participants,
-          }
-        })
+            return {
+              ...omit(match, ['participantsFullNames', 'participantsScores']),
+              participants,
+            }
+          })
 
         resolve(digestedMatches)
       }

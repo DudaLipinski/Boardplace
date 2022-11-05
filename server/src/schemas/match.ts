@@ -7,18 +7,20 @@ export interface MatchResponseDTO extends Match {
   participants: Omit<MatchParticipant, 'matchId'>[]
 }
 
-export type MatchCreationData = Omit<Match, 'id' | 'authorId'>
-
 export type MatchCreationParticipantData = Omit<
   MatchParticipant,
   'id' | 'matchId'
 >
 
-export interface MatchCreationDTO extends MatchCreationData {
+export interface MatchCreationDTO extends Omit<Match, 'id' | 'authorId'> {
   participants: MatchCreationParticipantData[]
 }
 
-const matchCreationSchema: JSONSchemaType<MatchCreationDTO> = {
+export type MatchCreationData = MatchCreationDTO & {
+  authorId: Match['authorId']
+}
+
+const matchCreationSchema: JSONSchemaType<MatchCreationData> = {
   title: 'Match',
   description: 'Match data with its participants',
   type: 'object',
