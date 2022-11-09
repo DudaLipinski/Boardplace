@@ -1,11 +1,9 @@
 import axios from 'axios'
+import { User } from '../types/User'
 
-export const createUser = (userPayload) =>
-  axios({
-    method: 'post',
-    url: 'http://localhost:3007/user',
-    data: userPayload,
-  })
+export const createUser = (userPayload: Omit<User, 'id'>) =>
+  axios
+    .post<User>('http://localhost:3007/user', userPayload)
     .then((response) => {
       // const token = response.data.token
       // localStorage.setItem('token', token)
@@ -25,12 +23,12 @@ export const createUser = (userPayload) =>
       }
     })
 
-export const authUser = (loginPayload) =>
-  axios({
-    method: 'post',
-    url: 'http://localhost:3007/auth',
-    data: loginPayload,
-  })
+export const authUser = (loginPayload: { email: string; password: string }) =>
+  axios
+    .post<{ user: User; token: string }>(
+      'http://localhost:3007/auth',
+      loginPayload
+    )
     .then((response) => {
       const token = response.data.token
       localStorage.setItem('token', token)
@@ -47,7 +45,7 @@ export const authUser = (loginPayload) =>
       }
     })
 
-export const setAuthToken = (token) => {
+export const setAuthToken = (token: string) => {
   if (token) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
   } else {
