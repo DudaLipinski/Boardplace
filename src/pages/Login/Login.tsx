@@ -1,4 +1,3 @@
-import React from 'react'
 import { authUser } from '../../services/user'
 
 import { useNavigate } from 'react-router-dom'
@@ -12,19 +11,24 @@ import { Form } from '../../components/Form'
 import { Centralizer } from '../../components/Centralizer'
 import { Button, AutoCenter } from 'antd-mobile'
 import { motion } from 'framer-motion'
+import { User } from '../../types/User'
 
 export const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const onFinishFailed = (errorInfo) => {
-    alert('Failed:', errorInfo)
+  const onFinishFailed = (errorInfo: string) => {
+    alert(`Failed: ${errorInfo}`)
   }
 
-  const handleLogin = (loginPayload) => {
+  const handleLogin = (loginPayload: Pick<User, 'email' | 'password'>) => {
     authUser(loginPayload)
-      .then(({ user }) => {
-        dispatch(userActions.setUser(user))
+      .then((response) => {
+        if (!response) {
+          throw new Error('Internal error')
+        }
+
+        dispatch(userActions.setUser(response.user))
         navigate('/dashboard')
       })
       .catch((error) => alert(error.message))

@@ -4,7 +4,7 @@ import db from '../database'
 
 export interface Match {
   id: string
-  authorId: string
+  authorId: number
   boardgameName: string
   date?: string
   duration?: number
@@ -134,7 +134,7 @@ export const getById = ({ id }: { id: string }) => {
   })
 }
 
-export const getAllByAuthor = ({ authorId }: { authorId: string }) => {
+export const getAllByAuthor = ({ authorId }: { authorId: number }) => {
   const query = `
     ${GET_MATCH_WITH_PARTICIPANTS_QUERY}
     WHERE
@@ -152,14 +152,17 @@ export const getAllByAuthor = ({ authorId }: { authorId: string }) => {
           )
         }
 
-        const digestedMatches = matches.map((match) => {
-          const participants = digestMatchParticipants(match)
+        const digestedMatches = matches
+          // TODO: understand why this join is returning a nullified row when no matches are found
+          .filter(({ authorId }) => authorId)
+          .map((match) => {
+            const participants = digestMatchParticipants(match)
 
-          return {
-            ...omit(match, ['participantsFullNames', 'participantsScores']),
-            participants,
-          }
-        })
+            return {
+              ...omit(match, ['participantsFullNames', 'participantsScores']),
+              participants,
+            }
+          })
 
         resolve(digestedMatches)
       }

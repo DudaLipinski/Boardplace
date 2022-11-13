@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import { useParams } from 'react-router-dom'
 import {
   MinusCircleOutlined,
@@ -21,12 +21,18 @@ import {
   Typography,
   InputNumber,
   Result,
+  FormListFieldData,
 } from 'antd'
 
 const { TextArea } = Input
 const { Title } = Typography
 
-const Participants = ({ fields, add, remove }) => {
+interface ParticipantsProps {
+  fields: FormListFieldData[]
+  add: () => void
+  remove: (index: number) => void
+}
+const Participants = ({ fields, add, remove }: ParticipantsProps) => {
   return (
     <>
       {fields.map(({ key, name, ...restField }, index) => {
@@ -75,12 +81,7 @@ const Participants = ({ fields, add, remove }) => {
         )
       })}
       <Form.Item>
-        <Button
-          type="dashed"
-          onClick={() => add()}
-          block
-          icon={<PlusOutlined />}
-        >
+        <Button type="dashed" onClick={add} block icon={<PlusOutlined />}>
           Add player
         </Button>
       </Form.Item>
@@ -92,7 +93,12 @@ export const MatchItem = () => {
   const { id } = useSelector(userSelectors.getUser)
   const { matchId } = useParams()
   const [loading, setLoading] = useState(!!matchId)
-  const [initialValues, setInitialValues] = useState()
+  const [initialValues, setInitialValues] = useState<{
+    boardgameName: string
+    date: Moment
+    duration: number
+    notes: string
+  }>()
 
   const loadMatch = async () => {
     const foundMatch = await getMatch(matchId)
@@ -123,7 +129,10 @@ export const MatchItem = () => {
     />
   )
 
-  const handleMatch = (matchData) => {
+  const handleMatch = (matchData: any) => {
+    // REMOVE any
+    console.log('--- matchData ---') // [XXX] REMOVE BEFORE COMMITING
+    console.log(matchData) // [XXX] REMOVE BEFORE COMMITING
     const date = matchData.date.format()
     const match = { ...matchData, authorId: String(id), date: date }
 

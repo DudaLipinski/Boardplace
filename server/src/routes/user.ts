@@ -9,8 +9,5 @@ export function set(app: Express) {
 
   app.delete(userEndpoint, userController.remove)
 
-  app.get(
-    `${userEndpoint}/:userId/matches`,
-    matchController.getAllByUserParticipant
-  )
+  app.get(`${userEndpoint}/matches`, matchController.getAllByLoggedUser)
 }
