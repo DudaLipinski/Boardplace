@@ -40,7 +40,7 @@ export const Login = () => {
     >
       <Centralizer>
         <AutoCenter>
-          <Styled.Title>Bordy</Styled.Title>
+          <Styled.Title>Boardy</Styled.Title>
         </AutoCenter>
         <Styled.Paragraph>
           Please fill your details to access your account.
@@ -86,7 +86,7 @@ export const Login = () => {
               block
               size="large"
               color="primary"
-              htmlType="submit"
+              type="submit"
               style={{ fontSize: 'var(--adm-font-size-6)' }}
             >
               Login

@@ -40,7 +40,7 @@ export const CreateAccount = () => {
     >
       <Centralizer>
         <AutoCenter>
-          <Styled.Title>Bordy</Styled.Title>
+          <Styled.Title>Boardy</Styled.Title>
         </AutoCenter>
         <Styled.Paragraph>
           Please fill your details to create your account.
@@ -57,6 +57,7 @@ export const CreateAccount = () => {
             rules={[
               {
                 required: true,
+                message: 'Please input your first name!',
               },
             ]}
           >
@@ -68,6 +69,7 @@ export const CreateAccount = () => {
             rules={[
               {
                 required: true,
+                message: 'Please input your last name',
               },
             ]}
           >
@@ -80,6 +82,7 @@ export const CreateAccount = () => {
               {
                 type: 'email',
                 required: true,
+                message: 'Please input your e-mail',
               },
             ]}
           >
@@ -94,6 +97,7 @@ export const CreateAccount = () => {
                 min: 0,
                 max: 99,
                 required: true,
+                message: 'Please input your age',
               },
             ]}
           >
@@ -105,6 +109,7 @@ export const CreateAccount = () => {
             rules={[
               {
                 required: true,
+                message: 'Please input your password',
               },
             ]}
           >
@@ -115,7 +120,7 @@ export const CreateAccount = () => {
               block
               size="large"
               color="primary"
-              htmlType="submit"
+              type="submit"
               style={{ fontSize: 'var(--adm-font-size-6)' }}
             >
               Create Account
