@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react'
 import { getMatches } from '../services/match'
 import { useDispatch, useSelector } from 'react-redux'

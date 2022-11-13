@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { createUser } from '../../services/user'
+import { createUser } from '../../services/user.ts'
 
 import { useDispatch } from 'react-redux'
 import { actions as userActions } from '../../state/user'

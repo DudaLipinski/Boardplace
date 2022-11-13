@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import { useSelector } from 'react-redux'
-import { selectors as userSelectors } from '../../state/user'
+// import { useSelector } from 'react-redux'
+// import { selectors as userSelectors } from '../../state/user'
 // import { useDispatch } from "react-redux"
 // import { actions as userActions } from "../../state/user"
 

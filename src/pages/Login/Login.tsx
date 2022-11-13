@@ -1,4 +1,4 @@
-import { authUser } from '../../services/user'
+import { authUser } from '../../services/user.ts'
 
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'

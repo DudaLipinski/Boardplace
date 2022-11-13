@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import moment, { Moment } from 'moment'
 import { useParams } from 'react-router-dom'
 import {
   MinusCircleOutlined,
   PlusOutlined,
-  SmileOutlined,
 } from '@ant-design/icons'
 import { getMatch, createMatch } from '../../services/match'
 import { motion } from 'framer-motion'
@@ -20,7 +20,6 @@ import {
   DatePicker,
   Typography,
   InputNumber,
-  Result,
   FormListFieldData,
 } from 'antd'
 
@@ -121,18 +120,8 @@ export const MatchItem = () => {
     return null
   }
 
-  const Success = (
-    <Result
-      icon={<SmileOutlined />}
-      title="Great, we have done all the operations!"
-      extra={<Button type="primary">Ok</Button>}
-    />
-  )
-
   const handleMatch = (matchData: any) => {
     // REMOVE any
-    console.log('--- matchData ---') // [XXX] REMOVE BEFORE COMMITING
-    console.log(matchData) // [XXX] REMOVE BEFORE COMMITING
     const date = matchData.date.format()
     const match = { ...matchData, authorId: String(id), date: date }
 

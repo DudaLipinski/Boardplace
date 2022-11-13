@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { authUser } from './services/user'
+// import { authUser } from './services/user.ts'
 
-import { useDispatch } from 'react-redux'
-import { actions as userActions } from './state/user'
+// import { useDispatch } from 'react-redux'
+// import { actions as userActions } from './state/user'
 import { useSelector } from 'react-redux'
 import { selectors as userSelectors } from './state/user'
 
 import { MenuLayoutWrapper } from './components/MenuLayoutWrapper/MenuLayoutWrapper'
-import { Login } from './pages/Login/Login'
+import { Login } from './pages/Login/Login.tsx'
 import { CreateAccount } from './pages/CreateAccount/CreateAccount'
 import { Dashboard } from './pages/Dashboard/Dashboard'
 import { Profile } from './pages/Profile'
 import { FirstPlayer } from './pages/FirstPlayer/FirstPlayer'
-import { MatchItem } from './pages/Match/MatchItem'
+import { MatchItem } from './pages/Match/MatchItem.tsx'
 import { MatchList } from './pages/Match/MatchList'
 import { AnimatePresence } from 'framer-motion'
 
@@ -51,11 +51,11 @@ const UnauthenticatedRoutes = () => {
 }
 
 const AppRoutes = () => {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const isLoggedIn = useSelector(userSelectors.getIsLoggedIn)
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem('token')
+    // const loggedInUser = localStorage.getItem('token')
     //todo: getUser by token to maintain login
   }, [])
 
